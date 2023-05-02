@@ -52,7 +52,7 @@
                 </el-collapse>
             </el-form>
             <el-button type="primary" @click="setUserInfo('profileform')">确认修改</el-button>
-            <el-button @click="updataInfo">重置</el-button>
+            <el-button @click="updateInfo">重置</el-button>
         </div>
     </div>
 </template>
@@ -96,10 +96,10 @@ export default {
         }
     },
     mounted() {
-        this.updataInfo()
+        this.updateInfo()
     },
     methods: {
-        updataInfo(){
+        updateInfo(){
             this.user = JSON.parse(sessionStorage.getItem('userInfo'))
             this.profileform.phone = this.user.phone
             this.profileform.mail = this.user.mail
@@ -124,7 +124,7 @@ export default {
                         console.log(data)
                         sessionStorage.removeItem('userInfo')
                         sessionStorage.setItem('userInfo',JSON.stringify(data.data))
-                        this.updataInfo()
+                        this.updateInfo()
                         if(data.code===2015){
                             this.$message('用户信息修改成功！');
                         }

@@ -4,13 +4,18 @@
         <div>
             <ProfileForm></ProfileForm>
         </div>
+        <div>
+            <StudentList></StudentList>
+        </div>
     </div>
 </template>
 <script>
 import ProfileForm from "../components/ProfileForm"
+import StudentList from "../components/StudentList"
 export default {
     components:{
-        ProfileForm
+        ProfileForm,
+        StudentList
     },
     data() {
         return {

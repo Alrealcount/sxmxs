@@ -43,6 +43,7 @@ export default {
                 }
             })
         },
+        
         openSocket(){
             if(typeof(WebSocket) == "undefined") {
                 console.log("您的浏览器不支持WebSocket");

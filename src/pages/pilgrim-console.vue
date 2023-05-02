@@ -64,7 +64,25 @@ export default {
             this.isCollapse = true
             this.isCollapseTxt = '展开'
         }
-      }
+      },
+      getAvatar() {
+            this.$axios({
+                url: `http://api.pi1grim.top/ea/api/v3/avatar`,
+                method: 'GET',
+                headers: {
+                    token: sessionStorage.getItem('token')
+                }
+            }).then(res => {
+                console.log(res)
+                if (res.status === 200) {
+                    if (res.data.code === 2085) {
+                        console.log(res.data)
+                        sessionStorage.removeItem('avatar')
+                        sessionStorage.setItem('avatar', JSON.stringify(res.data.data))
+                    }
+                }
+            })
+        },
     }
 }
 </script>
