@@ -1,14 +1,14 @@
 <template lang="">
     <div class="title-box">
         <el-menu
-        :default-active="activeIndex"
+        :default-active="this.$route.path"
         class="el-menu-demo title"
         mode="horizontal"
         @select="handleSelect"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b" router="true">
-            <el-menu-item :index="{name:'控制台'}">控制台</el-menu-item>
+            <el-menu-item index="/pilgrim-home/pilgrim-console">控制台</el-menu-item>
         </el-menu>
     </div>
 </template>
@@ -17,11 +17,11 @@ export default {
     name:'ToolBar',
     data() {
         return {
-            activeIndex: '1'
+            
         }
     },
     mounted() {
-        
+        this.$router.push({ name: '控制台' })
     },
     methods: {
         handleSelect(key, keyPath) {

@@ -6,28 +6,28 @@
                 <!-- 索引 -->
                 <el-col :span="12">
                     <el-menu :default-active="this.$route.path" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-                    :collapse="isCollapse" router="true" default-openeds="['1']">
+                    :collapse="isCollapse" router="true">
                         <el-menu-item @click="showTo">
                             <!-- el-icon-s-unfold -->
                             <i :class="[isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold']"></i>
                             <span slot="title">{{isCollapseTxt}}</span>
                         </el-menu-item>
-                        <el-menu-item index="/pilgrim-home/pilgrim-control/console-main">
+                        <el-menu-item index="/pilgrim-home/pilgrim-console/console-main">
                             <i class="el-icon-menu"></i>
                             <span slot="title">主页</span>
                         </el-menu-item>
-                        <el-menu-item index="/pilgrim-home/pilgrim-control/console-profile">
+                        <el-menu-item index="/pilgrim-home/pilgrim-console/console-profile">
                             <i class="el-icon-document"></i>
                             <span slot="title">用户设置</span>
                         </el-menu-item>
-                        <el-menu-item index="/pilgrim-home/pilgrim-control/console-anaylsis">
+                        <el-menu-item index="/pilgrim-home/pilgrim-console/console-anaylsis">
                             <i class="el-icon-setting"></i>
                             <span slot="title">数据分析</span>
                         </el-menu-item>
                     </el-menu>
                 </el-col>
             </div>
-            <div>
+            <div class="console-body">
                 <!-- 内容 -->
                 <keep-alive>
                     <router-view></router-view>
@@ -42,10 +42,12 @@ export default {
         return {
             isCollapse: true,
             isCollapseTxt: '展开',
+            
         }
     },
     mounted() {
-        
+        this.$router.push({name:'用户设置'})
+        console.log('创建控制台')
     },
     methods: {
       handleOpen(key, keyPath) {
@@ -81,5 +83,8 @@ div{
     display: flex;
 }
 .console-bar{
+}
+.console-body{
+    width: 100%;
 }
 </style>

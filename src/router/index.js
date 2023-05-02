@@ -26,7 +26,7 @@ const router =  new VueRouter({
             children:[
                 {
                     name:'控制台',
-                    path:'pilgrim-control',
+                    path:'pilgrim-console',
                     component:Console,
                     children:[
                         {
