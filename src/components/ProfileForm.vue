@@ -63,7 +63,7 @@ export default {
         var validatePhone = (rule, value, callback) => {
             if (value === '') {
                 callback(new Error('请输入手机号'));
-            } else if (!/^1[34578]\d{9}$/.test(this.formLabelAlign.phone)) {
+            } else if (!/^1[34578]\d{9}$/.test(this.profileform.phone)) {
                 callback(new Error('手机号格式错误'));
             } else {
                 callback();
@@ -105,26 +105,35 @@ export default {
             this.profileform.mail = this.user.mail
             this.profileform.step = this.user.step
         },
-        setUserInfo(){
-            this.$axios({
-                url:'http://api.pi1grim.top/ea/api/v3/user/profile',
-                method:'post',
-                data:{
-                    password: JSON.parse(sessionStorage.getItem('userInfo')).password,
-                    phone:this.profileform.phone,
-                    mail:this.profileform.mail,
-                    step:this.profileform.step,
-                },
-                headers:{
-                    token:sessionStorage.getItem('token')
-                }
-            }).then(({data})=>{
-                console.log(data)
-                sessionStorage.removeItem('userInfo')
-                sessionStorage.setItem('userInfo',JSON.stringify(data.data))
-                this.updataInfo()
-                if(data.code===2015){
-                    this.$message('用户信息修改成功！');
+        setUserInfo(formName){
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.$axios({
+                        url:'http://api.pi1grim.top/ea/api/v3/user/profile',
+                        method:'post',
+                        data:{
+                            password: JSON.parse(sessionStorage.getItem('userInfo')).password,
+                            phone:this.profileform.phone,
+                            mail:this.profileform.mail,
+                            step:this.profileform.step,
+                        },
+                        headers:{
+                            token:sessionStorage.getItem('token')
+                        }
+                    }).then(({data})=>{
+                        console.log(data)
+                        sessionStorage.removeItem('userInfo')
+                        sessionStorage.setItem('userInfo',JSON.stringify(data.data))
+                        this.updataInfo()
+                        if(data.code===2015){
+                            this.$message('用户信息修改成功！');
+                        }
+                    })
+                }else{
+                    this.$message({
+                        message: '用户信息格式错误，请修改后再提交！',
+                        type: 'warning'
+                    });
                 }
             })
         }
