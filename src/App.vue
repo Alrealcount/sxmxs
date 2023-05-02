@@ -1,12 +1,6 @@
 <template>
   <div class="before-home">
-    <div>
-      <router-link :to="{name:'登录'}">登录</router-link>
-      <router-link :to="{name:'注册'}">注册</router-link>
-    </div>
-    <div>
-      <router-view></router-view>
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -17,7 +11,15 @@ export default {
   name: 'App',
   components: {
     // HelloWorld
-  }
+  },
+  mounted() {
+    this.initTo()
+  },
+  methods: {
+    initTo(){
+      this.$router.push({name:'登录'})
+    }
+  },
 }
 </script>
 

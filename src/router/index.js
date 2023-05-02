@@ -5,6 +5,7 @@ import Home from "../pages/pilgrim-home.vue"
 import Console from "../pages/pilgrim-console.vue"
 import Profile from "../pages/console-profile.vue"
 import Main from "../pages/console-main.vue"
+import Anaylsis from "../pages/console-anaylsis.vue"
 
 const router =  new VueRouter({
     routes:[
@@ -40,8 +41,8 @@ const router =  new VueRouter({
                         },
                         {
                             name: '数据分析',
-                            path: 'console-profile',
-                            component: Profile,
+                            path: 'console-anaylsis',
+                            component: Anaylsis,
                         }
                     ]
                 }

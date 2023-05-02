@@ -1,9 +1,9 @@
 <template lang="">
-    <div>
-        <div>
+    <div class="home-box">
+        <div class="home-head">
             <ToolBar></ToolBar>
         </div>
-        <div>
+        <div class="home-main">
             <router-view></router-view>
         </div>
     </div>
@@ -102,5 +102,12 @@ export default {
 }
 </script>
 <style scoped>
-    
+.home-box{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.home-main{
+    flex: 1;
+}
 </style>

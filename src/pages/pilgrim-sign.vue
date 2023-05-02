@@ -29,10 +29,14 @@ export default {
 .sign-box{
     /* width: 100%; */
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .sign-form-box{
     width: 80%;
     margin: 0 10%;
-
+    display: flex;
+    justify-content: center;
 }  
 </style>

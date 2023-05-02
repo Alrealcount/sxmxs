@@ -28,10 +28,14 @@ export default {
 <style scoped>
 .login-box{
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .login-form-box{
     width: 80%;
-    padding: 0 10%;
-
+    margin: 0 10%;
+    display: flex;
+    justify-content: center;
 }
 </style>
