@@ -5,22 +5,22 @@
             <div class="console-bar">
                 <!-- 索引 -->
                 <el-col :span="12">
-                    <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-                    :collapse="isCollapse" router="true">
+                    <el-menu :default-active="this.$route.path" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
+                    :collapse="isCollapse" router="true" default-openeds="['1']">
                         <el-menu-item @click="showTo">
                             <!-- el-icon-s-unfold -->
                             <i :class="[isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold']"></i>
                             <span slot="title">{{isCollapseTxt}}</span>
                         </el-menu-item>
-                        <el-menu-item :index="{name:'控制台主页'}">
+                        <el-menu-item index="/pilgrim-home/pilgrim-control/console-main">
                             <i class="el-icon-menu"></i>
                             <span slot="title">主页</span>
                         </el-menu-item>
-                        <el-menu-item :index="{name:'用户设置'}">
+                        <el-menu-item index="/pilgrim-home/pilgrim-control/console-profile">
                             <i class="el-icon-document"></i>
                             <span slot="title">用户设置</span>
                         </el-menu-item>
-                        <el-menu-item :index="{name:'数据分析'}">
+                        <el-menu-item index="/pilgrim-home/pilgrim-control/console-anaylsis">
                             <i class="el-icon-setting"></i>
                             <span slot="title">数据分析</span>
                         </el-menu-item>
@@ -41,7 +41,7 @@ export default {
     data() {
         return {
             isCollapse: true,
-            isCollapseTxt: '展开'
+            isCollapseTxt: '展开',
         }
     },
     mounted() {
