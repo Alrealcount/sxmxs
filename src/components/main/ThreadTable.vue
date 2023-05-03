@@ -13,7 +13,8 @@ export default {
         return {
             threadData:[],
             min:'',
-            max:''
+            max:'',
+            xy:[]
         }
     },
     mounted() {
@@ -39,7 +40,7 @@ export default {
                     type: 'value'
                 },
                 series: [{
-                    data: [120, 200, 150, 80, 70, 110, 130],
+                    data: this.xy,
                     type: 'line',
                     showBackground: true,
                     backgroundStyle: {
