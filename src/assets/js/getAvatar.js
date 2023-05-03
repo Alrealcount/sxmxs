@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 
-function getAvatar(avatarList){
+function getAvatar(){
     axios({
         url: `http://api.pi1grim.top/ea/api/v3/avatar`,
         method: 'GET',
@@ -13,7 +13,6 @@ function getAvatar(avatarList){
         if (res.status === 200) {
             if (res.data.code === 2085) {
                 console.log(res.data)
-                avatarList = res.data.data  
             }
         }
     })  

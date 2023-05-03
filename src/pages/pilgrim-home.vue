@@ -109,6 +109,6 @@ export default {
     flex-direction: column;
 }
 .home-main{
-    flex: 1;
+    height: calc(100% - 61px);
 }
 </style>

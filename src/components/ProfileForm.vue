@@ -147,7 +147,7 @@ export default {
 }
 .profile-form{
     padding: 20px;
-    width: 50%;
+    /* width: 50%; */
     position: relative;
 }
 </style>

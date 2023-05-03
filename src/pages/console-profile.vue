@@ -1,10 +1,9 @@
 <template lang="">
-    <div>
-        用户设置
-        <div>
+    <div style="display: flex;">
+        <div style="width: 50%;">
             <ProfileForm></ProfileForm>
         </div>
-        <div>
+        <div style="width: 50%;">
             <StudentList></StudentList>
         </div>
     </div>

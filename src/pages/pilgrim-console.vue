@@ -104,5 +104,6 @@ div{
 }
 .console-body{
     width: 100%;
+    overflow-y: scroll;
 }
 </style>
