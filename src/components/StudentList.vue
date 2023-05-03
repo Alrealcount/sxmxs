@@ -133,7 +133,7 @@
                         url: 'http://api.pi1grim.top/ea/api/v3/student',
                         method: 'post',
                         data: {
-                            number: this.newStu.qqNumber,
+                            qqNumber: this.newStu.qqNumber,
                             notes: this.newStu.notes
                         },
                         headers: {
@@ -147,8 +147,12 @@
                                 type: 'success'
                             })
                             this.stuList.push(data.data)
+                        }else{
+                            this.$message({
+                                message: `${data.message}`,
+                                type: 'warning'
+                            });
                         }
-                        
                     })
                 }else{
                     this.$message({
@@ -163,10 +167,14 @@
                     url: 'http://api.pi1grim.top/ea/api/v3/student',
                     method: 'delete',
                     data: {
-                        id: item.id,
-                        qqNumber: item.qqNumber,
-                        notes: item.notes,
-                        selected: item.selected
+                        students: [
+                            {
+                                id: item.id,
+                                qqNumber: item.qqNumber,
+                                notes: item.notes,
+                                selected: item.selected
+                            }
+                        ]
                     },
                     headers: {
                         token: sessionStorage.getItem('token')
@@ -210,8 +218,12 @@
                             });
                             this.getStuList()
                             nick.value = ''
+                        }else{
+                            this.$message({
+                                message: `${data.message}`,
+                                type: 'warning'
+                            });
                         }
-
                     })
                 }else{
                     this.$message({
