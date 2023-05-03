@@ -9,8 +9,8 @@
     </div>
 </template>
 <script>
-import ProfileForm from "../components/ProfileForm"
-import StudentList from "../components/StudentList"
+import ProfileForm from "../components/profile/ProfileForm"
+import StudentList from "../components/profile/StudentList"
 export default {
     components:{
         ProfileForm,

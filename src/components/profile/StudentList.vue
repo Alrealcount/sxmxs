@@ -21,6 +21,7 @@
                         <el-button style="width: 100px;" @click="addStudent">取消</el-button>
                     </div>
                 </div>
+                <!-- <el-skeleton :rows="16" animated /> -->
                 <el-card v-for="(item,id) in stuList" :key="id" class="box-card" shadow="hover" style="margin-top: 20px;">
                     <div class="text item" @click="setStatus(item)">
                         <div class="avatar">
@@ -58,15 +59,15 @@
     </div>
 </template>
 <script>
-    import Ava from "../assets/js/getAvatar.js"
-    import "../assets/style/global.css"
+    // import Ava from "../assets/js/getAvatar.js"
+    import "../../assets/style/global.css"
 
     export default {
         name: 'StudentList',
         data() {
             return {
                 stuList: [],
-                map: Ava.getAvatar(this.map),
+                // map: Ava.getAvatar(this.map),
                 newStu:{
                     notes:'',
                     qqNumber:''
@@ -74,7 +75,7 @@
             }
         },
         mounted() {
-            console.log(this.map)
+            // console.log(this.map)
             this.getStuList()
             this.updateAvatar()
         },
@@ -142,6 +143,8 @@
                     }).then(({ data }) => {
                         console.log(data)
                         if(data.code===2030){
+                            this.newStu.qqNumber = ''
+                            this.newStu.notes = ''
                             this.$message({
                                 message: '学生添加成功!',
                                 type: 'success'

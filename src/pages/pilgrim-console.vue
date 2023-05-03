@@ -46,7 +46,7 @@ export default {
         }
     },
     mounted() {
-        this.$router.push({name:'用户设置'})
+        this.$router.push({name:'控制台主页'})
         console.log('创建控制台')
     },
     methods: {

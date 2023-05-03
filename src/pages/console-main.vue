@@ -1,11 +1,27 @@
 <template lang="">
     <div>
         控制台主页
-
+        <div>
+            <!-- <StatuLight></StatuLight> -->
+        </div>
+        <div>
+            <ThreadTable></ThreadTable>
+        </div>
+        <div>
+            <UserInfo></UserInfo>
+        </div>
     </div>
 </template>
 <script>
+// import StatuLight from "../components/main/StatuLight.vue"
+import ThreadTable from "../components/main/ThreadTable.vue"
+import UserInfo from "../components/main/UserInfo.vue"
 export default {
+    components:{
+        // StatuLight,
+        ThreadTable,
+        UserInfo
+    },
     data() {
         return {
             
