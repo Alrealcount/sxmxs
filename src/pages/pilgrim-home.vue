@@ -7,7 +7,9 @@
             </div>
         </div>
         <div class="home-main">
-            <router-view></router-view>
+            <keep-alive>
+                <router-view></router-view>
+            </keep-alive>
         </div>
     </div>
 </template>
@@ -47,7 +49,6 @@ export default {
                 }
             })
         },
-        
         openSocket(){
             if(typeof(WebSocket) == "undefined") {
                 console.log("您的浏览器不支持WebSocket");
@@ -111,17 +112,20 @@ export default {
     height: 100%;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 .home-head{
     height: 61px;
     width: 100%;
     border-bottom: 1px solid black;
-    background-color: aquamarine;
+    background-color: rgb(81, 104, 156);
     display: flex;
     align-items: center;
+    z-index: 999;
 }
 .home-head-bar{
     padding: 0 20px;
+    
 }
 .home-head-bar a{
     padding: 10px 20px;

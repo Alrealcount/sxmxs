@@ -5,7 +5,7 @@
                 <span>学生列表</span>
                 <el-button style="float: right; padding: 3px 0" type="text" @click="addStudent">添加</el-button>
             </div>
-            <div style="max-height: 800px;overflow-y: scroll;width: calc(100% + 20px);margin-bottom: 20px;">
+            <div style="max-height: 800px;overflow-y: scroll;width: 100%;margin-bottom: 20px;">
                 <div class="add-student-tab" id="add-student-tab">
                     <el-form :model="newStu" label-width="80px" label-position="left" style="padding: 10px 0;">
                         <el-form-item label="昵称">
@@ -103,6 +103,12 @@
             },
             setStatus(item) {
                 console.log(item, '修改')
+                let i = 0
+                if(item.selected){
+                    i=-1
+                }else{
+                    i=1
+                }
                 item.selected = !item.selected
                 this.$axios({
                     url: 'http://api.pi1grim.top/ea/api/v3/student',
@@ -115,6 +121,14 @@
                     }
                 }).then(({ data }) => {
                     console.log(data)
+                    let stu = sessionStorage.getItem('stu')
+                    if(i===1){
+                        stu++
+                    }else{
+                        stu--
+                    }
+                    sessionStorage.removeItem('stu')
+                    sessionStorage.setItem('stu', stu)
                 })
             },
             addStudent() {
@@ -240,11 +254,22 @@
     }
 </script>
 <style scoped>
+    ::-webkit-scrollbar {
+        width: 8px; 
+        height: 8px;
+    }
+    /* /滚动条的滑块 */
+    ::-webkit-scrollbar-thumb {
+        background-color: #eaecf1;
+        border-radius: 3px;
+    }
     .student-box {
         width: 80%;
-        border-radius: 40px;
-        border: 1px solid black;
+        /* border-radius: 40px; */
+        border: 1px solid rgb(169, 169, 169);
+        /* border-right    : 0; */
         padding: 20px;
+        background-color: white;
         min-height: 600px;
         /* max-height: 800px; */
         /* overflow-y: auto; */
@@ -278,6 +303,7 @@
         padding: 20px;
         border-bottom: 1px solid rgb(243, 242, 242);
         margin-bottom: 5px;
+        padding-top: 0;
         /* font-weight: 600; */
     }
 
@@ -322,7 +348,10 @@
         animation: fade-in-top 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
     }
 
-    .re-set-notes {}
+    .re-set-notes {
+        position: absolute;
+        right: 5%;
+    }
 
     .re-set-notes input {
         background-color: transparent;

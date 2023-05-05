@@ -144,9 +144,10 @@ export default {
 .profile-box{
     height: 100%;
     padding: 20px;
+    padding-top: 0;
 }
 .profile-form{
-    padding: 20px;
+    /* padding: 20px; */
     /* width: 50%; */
     position: relative;
 }

@@ -5,3 +5,6 @@
 .el-input__inner {
     height: 20px;
 }
+.el-menu-vertical-demo[data-v-11540b18]:not(.el-menu--collapse){
+    height: 100%;
+}

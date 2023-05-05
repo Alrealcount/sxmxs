@@ -1,14 +1,18 @@
 <template lang="">
     <div>
-        
+        <div id="memory-table">
+
+        </div>
     </div>
 </template>
 <script>
+import * as echarts from "echarts"
 export default {
-    name:'UserList',
+    name:'MemoryTable',
     data() {
         return {
-            
+            guardTimes: [],
+            activityTimes: [],
         }
     },
     mounted() {
@@ -19,6 +23,6 @@ export default {
     },
 }
 </script>
-<style scoped>
+<style lang="">
     
 </style>

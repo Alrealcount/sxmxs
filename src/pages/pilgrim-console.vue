@@ -40,8 +40,8 @@
 export default {
     data() {
         return {
-            isCollapse: true,
-            isCollapseTxt: '展开',
+            isCollapse: false,
+            isCollapseTxt: '收起',
             
         }
     },
@@ -101,9 +101,12 @@ div{
     display: flex;
 }
 .console-bar{
+    z-index: 999;
 }
 .console-body{
     width: 100%;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
+
 </style>
