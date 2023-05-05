@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div>
-                <div style="padding-bottom: 10px;color: rgb(71, 164, 231);"><span>进程状态: {{this.lightstatus}}</span></div>
+                <div style="padding-bottom: 10px;color: rgb(71, 164, 231);"><span>进程状态: {{lightstatus}}</span></div>
                 <span style="font-size: 14px;">未提供更多信息 : )</span>
             </div>
         </el-card>
@@ -18,14 +18,18 @@
 <script>
     export default {
         name:'StatusLight',
-        props: ['lightstatus'],
         data() {
             return {
-                
+                lightstatus:''
             }
         },
         mounted() {
-            
+            this.lightstatus = sessionStorage.getItem('crawStatus')
+        },
+        activated() {
+            setInterval(() => {
+                this.lightstatus = sessionStorage.getItem('crawStatus')
+            },1000)
         },
         methods: {
             

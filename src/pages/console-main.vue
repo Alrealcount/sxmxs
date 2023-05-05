@@ -1,5 +1,5 @@
 <template lang="">
-    <div style="width: 100%;">
+    <div style="width: 100%;position: relative;">
         <BackGround></BackGround>
         <div class="console-main-header">
             <span>控制台主页</span>
@@ -19,7 +19,7 @@
             </div>
             <div style="width: 50%;">
                 <div class="statu-light">
-                    <StatuLight :lightstatus="crawStatus"></StatuLight>
+                    <StatuLight></StatuLight>
                 </div>
                 <div class="main-center-box">
                     <div class="thread-table">
@@ -62,6 +62,7 @@ export default {
         this.getStuData()
         this.getUserInfo()
         this.getCrawStatus()
+        this.openSocket()
     },
     methods: {
         getStuData(){
@@ -112,10 +113,76 @@ export default {
             }).then(({ data }) => {
                 if (data.code === 2055) {
                     this.crawStatus = data.data
+                    sessionStorage.removeItem('crawStatus')
+                    sessionStorage.setItem('crawStatus',this.crawStatus)
                 } else {
                     console.log('get CrawStatus error')
                 }
             })
+        },
+        openSocket() {
+            if (typeof (WebSocket) == "undefined") {
+                console.log("您的浏览器不支持WebSocket");
+            } else {
+                console.log("您的浏览器支持WebSocket");
+                //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+                //等同于socket = new WebSocket("ws://localhost:8888/xxxx/im/25");
+                //var socketUrl="${request.contextPath}/im/"+$("#userId").val();
+                var socketUrl = `ws://api.pi1grim.top/ea/api/v3/websocket/${sessionStorage.getItem('id')}`;
+                // socketUrl=socketUrl.replace("https","ws").replace("http","ws");
+                console.log(socketUrl);
+                if (socket != null) {
+                    socket.close();
+                    socket = null;
+                }
+                var socket = new WebSocket(socketUrl);
+                //打开事件
+                socket.onopen = function () {
+                    console.log("websocket已打开");
+                    //socket.send("这是来自客户端的消息" + location.href + new Date());
+                };
+                //获得消息事件
+                socket.onmessage = (msg) => {
+                    // console.log(msg)
+                    let data = JSON.parse(msg.data)
+                    switch (data.code) {
+                        case 3000:
+                            console.log(data)
+                            this.reclaimCraw('OFFLINE')
+                            break;
+                        case 3005:
+                            console.log(data)
+                            break;
+                        case 3010:
+                            console.log(data)
+                            break;
+                        case 3015:
+                            console.log(data)
+                            break;
+                        case 3020:
+                            console.log(data)
+                            break;
+                        default:
+                            break;
+                    }
+                };
+                //关闭事件
+                socket.onclose = (event) => {
+                    console.log('websocket 断开: ' + event.codvent + ' ' + event.reason + ' ' + event.wasClean)
+                    console.log(event)
+                    console.log("websocket已关闭");
+                    this.openSocket()
+                };
+                //发生了错误事件
+                socket.onerror = function () {
+                    console.log("websocket发生了错误");
+                    this.openSocket()
+                }
+            }
+        },
+        reclaimCraw(status){
+            sessionStorage.removeItem('crawStatus')
+            sessionStorage.setItem('crawStatus',status)
         }
     },
 }

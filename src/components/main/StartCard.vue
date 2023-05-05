@@ -1,12 +1,17 @@
 <template lang="">
     <div style="z-index: 100;position: relative;">
         <el-card class="box-card" shadow="never" style="background-color: white;box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);">
-            <div slot="header">
+            <div slot="header" class="start-header">
                 <span>登录</span>
+                <div class="quit-start">
+                    <el-button type="text" @click="closeCrawler" :disabled="status==='NOT_CREATED'?true:false">退出登录</el-button>
+                </div>
             </div>
             <div class="start-tip" id="start-tip">
                 <template>
-                    <el-alert title="登录状态" type="info" description="用户未实现登录" show-icon
+                    <el-alert title="登录状态" type="info" :description="status==='NOT_CREATED'?'用户进程未创建':
+                status==='OFFLINE'?'进程已创建，用户未登录':status==='LEAVE_UNUSED'?'用户登录成功，功能可正常使用':
+                status==='DEEP_SEARCH'?'深度搜索进行中':'实时监听已开启'" show-icon
                     closable @close="closeAlter">
                     </el-alert>
                 </template>
@@ -44,11 +49,18 @@ export default {
             isGetQR:false,
             getQR_disabled:false,
             re_disabled:false,
-            loading_sum:0
+            loading_sum:0,
+            status:''
         }
     },
     mounted() {
-        
+        console.log(this.status)
+        this.status = sessionStorage.getItem('crawStatus')
+    },
+    activated() {
+        setInterval(()=>{
+            this.status = sessionStorage.getItem('crawStatus')
+        },1000)
     },
     methods: {
         isBtnClose(tof){
@@ -146,7 +158,26 @@ export default {
             setTimeout(()=>{
                 start_tip.style.display = 'none'
             },300)
-            
+        },
+        closeCrawler(){
+            this.$axios({
+                url: 'http://api.pi1grim.top/ea/api/v3/crawler',
+                method: 'delete',
+                headers: {
+                    token: sessionStorage.getItem('token')
+                }
+            }).then(({ data }) => {
+                if (data.code === 2060) {
+                    this.$message({
+                        message: 'Crawler终止成功',
+                        type: 'success'
+                    })
+                     var img_box = document.getElementById('img-box')
+                     img_box.style.display = 'none'
+                    sessionStorage.removeItem('crawStatus')
+                    sessionStorage.setItem('crawStatus','NOT_CREATED')
+                }
+            })
         }
     },
 }
@@ -163,11 +194,20 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
 }
 .start-btn-box-show{
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.start-header{
+    display: flex;
+    align-items: center;
+}
+.quit-start{
+    position: absolute;
+    right: 20px;
 }
 #this-img{
     width: 100%;
