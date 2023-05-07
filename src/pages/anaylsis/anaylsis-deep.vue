@@ -13,6 +13,17 @@ export default {
         BackGround,
         LoadBox
     },
+    data() {
+        return {
+            
+        }
+    },
+    mounted() {
+        
+    },
+    methods: {
+        
+    },
 }
 </script>
 <style lang="">
