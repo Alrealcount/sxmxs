@@ -63,7 +63,7 @@ export default {
     },
     data() {
         return {
-            isShrink:false,
+            isShrink:true,
             percentage: 0,
             customColors: [
                 { color: '#f56c6c', percentage: 20 },

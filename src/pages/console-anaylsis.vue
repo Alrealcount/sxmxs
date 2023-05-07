@@ -3,6 +3,14 @@
         <BackGround></BackGround>
         <loadBox></loadBox>
         数据分析
+        <div>
+            <router-link :to="{name:'总览'}">总览</router-link>
+            <router-link :to="{name:'深度搜索'}">深度搜索数据</router-link>
+            <router-link :to="{name:'实时监听'}">实时监听数据</router-link>
+        </div>
+        <div>
+            <router-view name="path"></router-view>
+        </div>
     </div>
 </template>
 <script>

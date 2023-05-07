@@ -20,10 +20,20 @@
                             <i class="el-icon-document"></i>
                             <span slot="title">用户设置</span>
                         </el-menu-item>
-                        <el-menu-item index="/pilgrim-home/pilgrim-console/console-anaylsis">
+                        <!-- <el-menu-item index="">
                             <i class="el-icon-setting"></i>
                             <span slot="title">数据分析</span>
-                        </el-menu-item>
+                        </el-menu-item> -->
+                        <el-submenu index="">
+                            <template slot="title">
+                                <i class="el-icon-setting"></i>
+                                <span slot="title">数据分析</span>
+                            </template>
+                            <el-menu-item index="/pilgrim-home/pilgrim-console/anaylsis-overview">总览</el-menu-item>
+                            <el-menu-item index="/pilgrim-home/pilgrim-console/anaylsis-deep">深度搜索</el-menu-item>
+                            <el-menu-item index="/pilgrim-home/pilgrim-console/anaylsis-listen">实时监听</el-menu-item>
+                        </el-submenu>
+
                     </el-menu>
                 </el-col>
             </div>

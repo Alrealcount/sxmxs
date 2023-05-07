@@ -5,7 +5,10 @@ import Home from "../pages/pilgrim-home.vue"
 import Console from "../pages/pilgrim-console.vue"
 import Profile from "../pages/console-profile.vue"
 import Main from "../pages/console-main.vue"
-import Anaylsis from "../pages/console-anaylsis.vue"
+// import Anaylsis from "../pages/console-anaylsis.vue"
+import Overview from "../pages/anaylsis/anaylsis-overview.vue"
+import Deep from "../pages/anaylsis/anaylsis-deep.vue"
+import Listen from "../pages/anaylsis/anaylsis-listen.vue"
 
 const router =  new VueRouter({
     routes:[
@@ -42,9 +45,19 @@ const router =  new VueRouter({
                             component: Main,
                         },
                         {
-                            name: '数据分析',
-                            path: 'console-anaylsis',
-                            component: Anaylsis,
+                            name: '总览',
+                            path: 'anaylsis-overview',
+                            component: Overview,
+                        },
+                        {
+                            name: '深度搜索',
+                            path: 'anaylsis-deep',
+                            component: Deep,
+                        },
+                        {
+                            name: '实时监听',
+                            path: 'anaylsis-listen',
+                            component: Listen,
                         }
                     ]
                 }
