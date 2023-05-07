@@ -8,3 +8,6 @@
 .el-menu-vertical-demo[data-v-11540b18]:not(.el-menu--collapse){
     height: 100%;
 }
+.start-tip .el-alert--info .el-alert__description{
+    color: unset;
+}

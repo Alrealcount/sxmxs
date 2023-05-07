@@ -45,7 +45,7 @@ export default {
 <style scoped>
 .console-box-background{
     width: 100%;
-    position: absolute;
+    position: fixed;
     z-index: 99;
     pointer-events: none;
 }

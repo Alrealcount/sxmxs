@@ -9,7 +9,7 @@
             </div>
             <div class="thread-table-heade-item">
                 <div>
-                    <span>活动线程</span>
+                    <span>休眠线程</span>
                 </div>
                 <span>68</span>
             </div>
@@ -31,6 +31,7 @@ import "../../assets/js/roma.project.json"
 
 export default {
     name:'ThreadTable',
+    props: ['status'],
     data() {
         return {
             threadData:[],
@@ -38,50 +39,82 @@ export default {
             max:'',
             guardTimes:[],
             activityTimes:[],
-            status:0,
-            mintime:''
+            mintime:'',
+            crawStatus:0
+        }
+    },
+    watch: {
+        status(curVal,oldVal){
+            console.log(oldVal,curVal)
+            this.crawStatus = this.changeType(curVal)
+            console.log('改变状态:',this.crawStatus)
         }
     },
     mounted() {
         this.myChart = echarts.init(document.getElementById('thread-table'), 'roma.project')
         this.mintime = Date.parse(new Date())
-        console.log(this.mintime)
-        this.guardTimes.push([this.mintime, 40])
+        // console.log(this.mintime)
+        this.guardTimes.push([this.mintime, 0])
         this.activityTimes.push([this.mintime, 0])
+
         this.echartsInit()
-        this.updataEchart(this.status)
-        console.log(this.myChart)
+
+        this.updataEchart()
+        // setInterval(this.updataEchart(this.crawStatus),5000)
+        // console.log(this.myChart)
+
         window.addEventListener("resize", () => {
-            // console.log(this.myChart)
-            // this.myChart.resize();
-            console.log(this)
+            // console.log(this)
             if (this.myChart)
                 this.myChart.resize()
         })
     },
     methods: {
-        updataEchart(status){
-            setInterval(() => {
-                this.readTimeData(status)
+        updataEchart(){
+            setInterval(()=>{
+                // console.log(this.crawStatus)
+                this.readTimeData(this.crawStatus)
                 this.echartsInit()
-            }, 5000)
+            },3000)
+        },
+        changeType(str){
+            switch(str){
+                case 'NOT_CREATED':
+                    return 0;
+                case 'OFFLINE':
+                    return 1;
+                case 'LEAVE_UNUSED':
+                    return 2;
+                case 'DEEP_SEARCH':
+                    return 3;
+                default:
+                    return 4;
+            }
         },
         readTimeData(status){
+            // console.log(status)
             let timestamp = Date.parse(new Date());
             let timeory,timeory_act
             switch (status) {
                 case 0:
-                    timeory = 280 - Math.floor(Math.random() * 10);
-                    timeory_act = 300 - Math.floor(Math.random() * 10);
+                    timeory = 0;
+                    timeory_act = 0;
                     break;
                 case 1:
-                    timeory = Math.floor(Math.random() * 10 + 300);
-                    timeory_act = Math.floor(Math.random() * 30 + 310);
+                    timeory = Math.floor(Math.random() * 3 + 10);
+                    timeory_act = Math.floor(Math.random() * 3 + 15);
                     break;
                 case 2:
-
+                    timeory = Math.floor(Math.random() * 3 + 30);
+                    timeory_act = Math.floor(Math.random() * 3 + 38);
+                    break;
+                case 3:
+                    timeory = Math.floor(Math.random() * 5 + 50);
+                    timeory_act = Math.floor(Math.random() * 5 + 55);
                     break;
                 default:
+                    timeory = Math.floor(Math.random() * 5 + 40);
+                    timeory_act = Math.floor(Math.random() * 5 + 45);
                     break;
             }
             this.guardTimes.push([timestamp,timeory]);
@@ -140,7 +173,7 @@ export default {
                 silent: false
             })
         }
-    },
+    }
 }
 </script>
 <style scoped>

@@ -1,34 +1,56 @@
 <template lang="">
     <div style="width: 100%;position: relative;">
         <BackGround></BackGround>
+        <LoadBox></LoadBox>
         <div class="console-main-header">
             <span>控制台主页</span>
             <div style="font-size: 12px;font-weight: 400;font-style: italic;"><span>f00867df</span></div>
         </div>
         <div class="main-top-box">
             <div style="width: 50%;">
-                <div class="user-info">
+                <div class="user-info fade-in">
                     <UserInfo></UserInfo>
                 </div>
-                <div class="start-card">
-                    <StartCard></StartCard>
+                <div class="start-card fade-in">
+                    <StartCard :status.sync="crawStatus"></StartCard>
                 </div>
-                <div class="">
-
+                <div class="time-show fade-in">
+                    <el-card class="box-card" shadow="never" style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);">
+                        <div slot="header" class="clearfix">
+                            <span>功能耗时</span>
+                        </div>
+                        <div style="display: flex;justify-content: space-around;">
+                            <div class="time-show-item">
+                                <span>深度搜索</span>
+                                <div><span>0</span></div>
+                            </div>
+                            <div class="time-show-item">
+                                <span>实时监听</span>
+                                <div><span>0</span></div>
+                            </div>
+                            <div class="time-show-item">
+                                <span>最大耗时</span>
+                                <div><span>0</span></div>
+                            </div>
+                        </div>
+                    </el-card>
                 </div>
             </div>
             <div style="width: 50%;">
-                <div class="statu-light">
-                    <StatuLight></StatuLight>
+                <div class="statu-light fade-in">
+                    <StatuLight :lightStatus.sync="crawStatus"></StatuLight>
+                </div>
+                <div style="padding: 20px;" class="fade-in">
+                    <MessageTable :messList.sync="messageList"></MessageTable>
                 </div>
                 <div class="main-center-box">
-                    <div class="thread-table">
-                        <el-card class="box-card" shadow="never" style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);">
+                    <div class="thread-table fade-in">
+                        <el-card class="box-card" shadow="never" style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);">
                             <div slot="header" class="clearfix">
                                 <span>线程</span>
                             </div>
                             <div>
-                                <ThreadTable></ThreadTable>
+                                <ThreadTable :status.sync="crawStatus"></ThreadTable>
                             </div>
                         </el-card>
                     </div>
@@ -44,6 +66,9 @@ import ThreadTable from "../components/main/ThreadTable.vue"
 import UserInfo from "../components/main/UserInfo.vue"
 import StartCard from "../components/main/StartCard.vue"
 import BackGround from "../components/BackGround.vue"
+import MessageTable from "../components/main/MessageTable.vue"
+import LoadBox from "../components/main/LoadBox.vue"
+
 export default {
     components:{
         StatuLight,
@@ -51,18 +76,22 @@ export default {
         UserInfo,
         StartCard,
         BackGround,
+        MessageTable,
+        LoadBox
     },
     data() {
         return {
             crawStatus:'',
-            stu_statu_num:0
+            stu_statu_num:0,
+            messageList:[]
         }
     },
+    
     mounted() {
         this.getStuData()
         this.getUserInfo()
         this.getCrawStatus()
-        this.openSocket()
+        this.getUserId()
     },
     methods: {
         getStuData(){
@@ -83,6 +112,25 @@ export default {
                     }
                     sessionStorage.removeItem('stu')
                     sessionStorage.setItem('stu', this.stu_statu_num)
+                }
+            })
+        },
+        getUserId() {
+            console.log('getuserid')
+            // /api/v3/user/id
+            this.$axios({
+                url: `http://api.pi1grim.top/ea/api/v3/user/id`,
+                method: 'GET',
+                headers: {
+                    token: sessionStorage.getItem('token')
+                }
+            }).then(res => {
+                console.log(res)
+                if (res.status === 200) {
+                    if (res.data.code === 2080) {
+                        sessionStorage.setItem('id', res.data.data)
+                        this.openSocket()
+                    }
                 }
             })
         },
@@ -113,8 +161,7 @@ export default {
             }).then(({ data }) => {
                 if (data.code === 2055) {
                     this.crawStatus = data.data
-                    sessionStorage.removeItem('crawStatus')
-                    sessionStorage.setItem('crawStatus',this.crawStatus)
+                    console.log(this.crawStatus)
                 } else {
                     console.log('get CrawStatus error')
                 }
@@ -148,10 +195,12 @@ export default {
                     switch (data.code) {
                         case 3000:
                             console.log(data)
-                            this.reclaimCraw('OFFLINE')
+                            // this.reclaimCraw('OFFLINE')
                             break;
                         case 3005:
                             console.log(data)
+                            this.getCrawStatus()
+                            
                             break;
                         case 3010:
                             console.log(data)
@@ -160,7 +209,8 @@ export default {
                             console.log(data)
                             break;
                         case 3020:
-                            console.log(data)
+                            console.log(data.message)
+                            this.messageList.push(data.message)
                             break;
                         default:
                             break;
@@ -179,10 +229,6 @@ export default {
                     this.openSocket()
                 }
             }
-        },
-        reclaimCraw(status){
-            sessionStorage.removeItem('crawStatus')
-            sessionStorage.setItem('crawStatus',status)
         }
     },
 }
@@ -229,4 +275,44 @@ export default {
     width: 100%;
     padding: 20px;
 }
+.time-show{
+    padding: 20px;
+}
+.time-show-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fade-in {
+	-webkit-animation: fade-in-top 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+    animation: fade-in-top 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
+
+@-webkit-keyframes fade-in-top {
+  0% {
+    -webkit-transform: translateY(-50px);
+            transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes fade-in-top {
+  0% {
+    -webkit-transform: translateY(-50px);
+            transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
 </style>

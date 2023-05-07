@@ -1,7 +1,7 @@
 <template lang="">
     <div>
         <div id="memory-table">
-
+            
         </div>
     </div>
 </template>
@@ -11,8 +11,8 @@ export default {
     name:'MemoryTable',
     data() {
         return {
-            guardTimes: [],
-            activityTimes: [],
+            one: [],
+            two: [],
         }
     },
     mounted() {

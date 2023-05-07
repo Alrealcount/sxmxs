@@ -1,6 +1,6 @@
 <template lang="">
     <div style="z-index: 100;position: relative;">
-        <el-card class="box-card" shadow="never" style="background-color: white;box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);">
+        <el-card class="box-card" shadow="never" style="background-color: rgba(255, 255, 255, 0.655);box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);">
             <div slot="header" class="start-header">
                 <span>登录</span>
                 <div class="quit-start">
@@ -12,7 +12,9 @@
                     <el-alert title="登录状态" type="info" :description="status==='NOT_CREATED'?'用户进程未创建':
                 status==='OFFLINE'?'进程已创建，用户未登录':status==='LEAVE_UNUSED'?'用户登录成功，功能可正常使用':
                 status==='DEEP_SEARCH'?'深度搜索进行中':'实时监听已开启'" show-icon
-                    closable @close="closeAlter">
+                    closable @close="closeAlter" :class="status==='NOT_CREATED'?'':
+                status==='OFFLINE'?'offine':status==='LEAVE_UNUSED'?'lev-unused':
+                status==='DEEP_SEARCH'?'deep-search':'listen'" style="transition: 0.5s;">
                     </el-alert>
                 </template>
             </div>
@@ -24,7 +26,7 @@
                         </template>
                     </el-skeleton>
                 </div>
-                <div class="start-btn-box-show">
+                <div class="start-btn-box-show" id="start-btn-box-show">
                     <div style="width: 128px;height: 128px;display: none;position: relative;" id="img-box"><img src="" alt="" id="this-img"></div>
                     <el-button @click="getQR" style="margin-top: 20px;" v-if="!isGetQR" :disabled=getQR_disabled>登录</el-button>
                     <el-button @click="reClaimQR" style="margin-top: 20px;width: 120px;" v-else :disabled=re_disabled>
@@ -33,9 +35,12 @@
                     </el-button>
                 </div>
             </div>
-            <div class="option-btn" id="option-btn">
+            <div class="start-btn-box" id="option-btn">
                 <el-button @click="deepSearch()">深度搜索</el-button>
                 <el-button @click="Listen()">实时监听</el-button>
+            </div>
+            <div class="start-btn-box" id="close-listen-btn">
+                <el-button @click="Listen()">关闭实时监听</el-button>
             </div>
         </el-card>
     </div>
@@ -43,6 +48,7 @@
 <script>
 export default {
     name:'StartCard',
+    props: ['status'],
     data() {
         return {
             loading:true,
@@ -50,17 +56,34 @@ export default {
             getQR_disabled:false,
             re_disabled:false,
             loading_sum:0,
-            status:''
         }
     },
     mounted() {
-        console.log(this.status)
-        this.status = sessionStorage.getItem('crawStatus')
+        // console.log(this.status)
+        // this.status = sessionStorage.getItem('crawStatus')
     },
     activated() {
-        setInterval(()=>{
-            this.status = sessionStorage.getItem('crawStatus')
-        },1000)
+        // setInterval(()=>{
+        //     this.status = sessionStorage.getItem('crawStatus')
+        // },1000)
+    },
+    watch:{
+        status(curVal,oldVal){
+            console.log(oldVal)
+            switch(curVal){
+                case 'LEAVE_UNUSED':
+                    this.changeInterface(false)
+                    break;
+                case 'DEEP_SEARCH':
+                    
+                    break;
+                case 'LISTEN':
+
+                    break;
+                default:
+                    break;
+            }
+        }
     },
     methods: {
         isBtnClose(tof){
@@ -82,7 +105,7 @@ export default {
             }).then(({data})=>{
                 if(data.code===2065){
                     this.$message({
-                        message:'深度搜索开启成功',
+                        message:'深度搜索开始执行',
                         type:'success'
                     })
                 }
@@ -172,12 +195,27 @@ export default {
                         message: 'Crawler终止成功',
                         type: 'success'
                     })
+                    this.isGetQR = false
                      var img_box = document.getElementById('img-box')
+                     this.changeInterface(true)
                      img_box.style.display = 'none'
                     sessionStorage.removeItem('crawStatus')
                     sessionStorage.setItem('crawStatus','NOT_CREATED')
                 }
             })
+        },
+        changeInterface(type){
+            var start_btn_box_show = document.getElementById('start-btn-box-show')
+            var option_btn = document.getElementById('option-btn')
+            if(type){
+                start_btn_box_show.style.display = 'flex'
+                option_btn.style.display = 'none'
+
+            }else{
+                start_btn_box_show.style.display = 'none'
+                option_btn.style.display = 'flex'
+            }
+            
         }
     },
 }
@@ -209,6 +247,12 @@ export default {
     position: absolute;
     right: 20px;
 }
+#option-btn{
+    display: none;
+}
+#close-listen-btn{
+    display: none;
+}
 #this-img{
     width: 100%;
     height: 100%;
@@ -219,6 +263,20 @@ export default {
     display: none;
     -webkit-animation: slide-in-fwd-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 	animation: slide-in-fwd-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+.offine{
+    background-color: #6ebfe57b !important;
+    color: #04425ead !important;
+    /* color: black !important; */
+}
+.lev-unused{
+    background-color: #3ffca178 !important;
+}
+.deep-search{
+    background-color: #9f47f681 !important;
+}
+.listen{
+    background-color: #ebaf5a76 !important;
 }
 @-webkit-keyframes slide-in-fwd-center {
   0% {

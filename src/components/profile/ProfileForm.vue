@@ -3,7 +3,7 @@
         <div class="profile-form">
             <el-form label-position="top" label-width="80px" :model="profileform" :rules="rules" ref="profileform" status-icon style="padding-top: 20px;">
                 <el-collapse v-model="activeNames" @change="handleChange" style="margin-bottom: 20px;">
-                    <el-collapse-item>
+                    <el-collapse-item name="1">
                         <template slot="title">
                             邮箱 mail
                             <div style="position: absolute;right: 50px;">
@@ -20,7 +20,7 @@
                             </el-form-item>
                         </div>
                     </el-collapse-item>
-                    <el-collapse-item>
+                    <el-collapse-item name="2">
                         <template slot="title">
                             手机号 phone
                             <div style="position: absolute;right: 50px;">
@@ -37,7 +37,7 @@
                             </el-form-item> -->
                         </div>
                     </el-collapse-item>
-                    <el-collapse-item>
+                    <el-collapse-item name="3">
                         <template slot="title">
                             监听步长 step
                             <div style="position: absolute;right: 50px;">
@@ -80,6 +80,7 @@ export default {
         };
         return {
             user:[],
+            activeNames:['1','2','3'],
             profileform:{
                 phone: '',
                 mail: '',
@@ -150,5 +151,7 @@ export default {
     /* padding: 20px; */
     /* width: 50%; */
     position: relative;
+    /* box-shadow: 0 0px 2px 0 rgba(0,0,0,.25); */
+    /* background-color: rgba(255, 255, 255, 0.655); */
 }
 </style>

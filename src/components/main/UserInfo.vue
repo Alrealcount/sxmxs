@@ -1,8 +1,11 @@
 <template>
     <div style="padding: 20px;z-index: 100;position: relative;">
-        <el-card class="box-card" shadow="never" style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);">
+        <el-card class="box-card" shadow="never" style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);">
             <div slot="header" class="clearfix">
                 <span>用户信息</span>
+                <div style="position: absolute;right: 50px;">
+                    <el-button type="text" @click="updataUserData">刷新</el-button>
+                </div>
             </div>
             <div>
                 <el-descriptions column="1" style="margin-top: 10px;">
@@ -43,13 +46,27 @@
             }
         },
         mounted() {
-            this.stu = sessionStorage.getItem('stu')
-            this.updateInfo()
+            setTimeout(()=>{
+                this.stu = sessionStorage.getItem('stu')
+                this.updateInfo()
+            },300)
+            
         },
         methods: {
             updateInfo() {
                 this.user = JSON.parse(sessionStorage.getItem('userInfo'))
             },
+            updataUserData(){
+                this.user = JSON.parse(sessionStorage.getItem('userInfo'))
+                this.stu = sessionStorage.getItem('stu')
+                setTimeout(()=>{
+                    this.$message({
+                        message: '刷新用户数据成功',
+                        type: 'success'
+                    })
+                },300)
+                
+            }
         },
         activated() {
             this.stu = sessionStorage.getItem('stu')
@@ -67,6 +84,10 @@
     .user-info-item{
         position: absolute;
         left: 40%;
+    }
+    .clearfix{
+        display: flex;
+        align-items: center;
     }
     /* .my-label,.my-content{
         background-color: #F9FAFB;

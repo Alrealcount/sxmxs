@@ -1,15 +1,15 @@
 <template lang="">
     <div style="padding: 20px;z-index: 100;position: relative;">
-        <el-card class="box-card" shadow="never" style="background-color: white;box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);">
+        <el-card class="box-card" shadow="never" style="background-color: white;box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);">
             <div slot="header" class="clearfix">
                 <span>进程</span>
-                <div :class="lightstatus==='NOT_CREATED'?'no-creat':
-                lightstatus==='OFFLINE'?'offine':lightstatus==='LEAVE_UNUSED'?'lev-unused':
-                lightstatus==='DEEP_SEARCH'?'deep-search':'listen'" class="circle">
+                <div :class="lightStatus==='NOT_CREATED'?'no-creat':
+                lightStatus==='OFFLINE'?'offine':lightStatus==='LEAVE_UNUSED'?'lev-unused':
+                lightStatus==='DEEP_SEARCH'?'deep-search':'listen'" class="circle">
                 </div>
             </div>
             <div>
-                <div style="padding-bottom: 10px;color: rgb(71, 164, 231);"><span>进程状态: {{lightstatus}}</span></div>
+                <div style="padding-bottom: 10px;color: rgb(71, 164, 231);"><span>进程状态: {{lightStatus}}</span></div>
                 <span style="font-size: 14px;">未提供更多信息 : )</span>
             </div>
         </el-card>
@@ -18,18 +18,19 @@
 <script>
     export default {
         name:'StatusLight',
+        props: ['lightStatus'],
         data() {
             return {
-                lightstatus:''
+                // lightstatus:''
             }
         },
         mounted() {
-            this.lightstatus = sessionStorage.getItem('crawStatus')
+            // this.lightstatus = sessionStorage.getItem('crawStatus')
         },
         activated() {
-            setInterval(() => {
-                this.lightstatus = sessionStorage.getItem('crawStatus')
-            },1000)
+            // setInterval(() => {
+            //     this.lightstatus = sessionStorage.getItem('crawStatus')
+            // },1000)
         },
         methods: {
             
@@ -44,6 +45,7 @@
     border: 1px solid rgb(162, 162, 162);
     position: absolute;
     right: 50px;
+    transition: 0.5s;
 }
 .clearfix{
     position: relative;
@@ -54,15 +56,16 @@
     background-color: #BAC8D3;
 }
 .offine{
-    background-color: #FF6666;
+    background-color: #6ebfe57b;
 }
 .lev-unused{
-    background-color: #66FF66;
+    background-color: #3ffca178;
 }
 .deep-search{
-    background-color: #007FFF;
+    background-color: #9f47f681;
 }
 .listen{
-    background-color: #6600CC;
+    background-color: #ebaf5a76;
 }
+
 </style>

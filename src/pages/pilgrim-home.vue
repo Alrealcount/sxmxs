@@ -26,28 +26,11 @@ export default {
         }
     },
     mounted() {
-        this.getUserId()
+        // this.getUserId()
         this.$router.push({ name: '控制台' })
     },
     methods: {
-        getUserId(){
-            console.log('getuserid')
-            // /api/v3/user/id
-            this.$axios({
-                url:`http://api.pi1grim.top/ea/api/v3/user/id`,
-                method:'GET',
-                headers:{
-                    token:sessionStorage.getItem('token')
-                }
-            }).then(res=>{
-                console.log(res)
-                if(res.status===200){
-                    if(res.data.code===2080){
-                        sessionStorage.setItem('id',res.data.data)
-                    }
-                }
-            })
-        },
+        
         
     },
 }
@@ -78,6 +61,7 @@ export default {
 }
 .home-main{
     height: calc(100% - 61px);
+    position: relative;
 }
 .active{
     background-color: rgb(236, 246, 246);

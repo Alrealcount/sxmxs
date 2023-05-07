@@ -22,11 +22,13 @@ const router =  new VueRouter({
         {
             name:'主页',
             path:'/pilgrim-home',
+            redirect: "/pilgrim-home/pilgrim-console",
             component:Home,
             children:[
                 {
                     name:'控制台',
                     path:'pilgrim-console',
+                    redirect: "pilgrim-console/console-main",
                     component:Console,
                     children:[
                         {
