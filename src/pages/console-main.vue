@@ -41,7 +41,7 @@
                     <StatuLight :lightStatus.sync="crawStatus"></StatuLight>
                 </div>
                 <div style="padding: 20px;" class="fade-in">
-                    <MessageTable :messList.sync="messageList" :time="time"></MessageTable>
+                    <MessageTable :messList.sync="messageList" :time="time" :status.sync="crawStatus"></MessageTable>
                 </div>
                 <div class="main-center-box">
                     <div class="thread-table fade-in">

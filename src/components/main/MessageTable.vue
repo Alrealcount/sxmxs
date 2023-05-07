@@ -12,7 +12,7 @@
                     <span style="font-size: 14px;color: rgb(180, 180, 180);">{{isShrink?'查询详细信息':'关闭详细信息'}}</span>
                 </div>
                 <div style="position: absolute;font-size: 14px;left: 30%;transform: translateY(20%);">
-                    <span v-if="percentage===0">进程未开始</span>
+                    <span v-if="status!='DEEP_SEARCH'">进程未开始</span>
                     <span v-else>当前进度 : {{percentage+'%'}}</span>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                     <div style="position: relative;width: 100%;">
                         <div class="progress" role="progressbar" aria-label="Animated striped example" :aria-valuenow="percentage" aria-valuemin="0"
                             aria-valuemax="100">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bar-color" :style="{width: percentage + '%'}">{{percentage+'%'}}</div>
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bar-color" :style="{width: (status==='DEEP_SEARCH'?percentage + '%':'0')}">{{percentage+'%'}}</div>
                         </div>
                         <!-- <el-progress :percentage="percentage" :color="customColors" text-inside :stroke-width="26"></el-progress> -->
                     </div>
@@ -36,11 +36,11 @@
                     <div class="main-item" v-else>
                         <div style="width: 100%;">
                             <template>
-                                    <el-alert v-for="(item,id) in messList" :key="id" :title="item.qqNumber+' --- '+time[id]" type="success" style="margin-bottom: 20px;"
-                                    :description="item.notes+' 数据获取完成'"
-                                    show-icon
-                                    >
-                                    </el-alert>
+                                <el-alert v-for="(item,id) in messList" :key="id" :title="item.qqNumber+' --- '+time[id]" type="success" style="margin-bottom: 20px;"
+                                :description="item.notes+' 数据获取完成'"
+                                show-icon
+                                >
+                                </el-alert>
                             </template>
                         </div>
                     </div>
@@ -59,7 +59,8 @@ export default {
     },
     props: {
         messList:[],
-        time:[]
+        time:[],
+        status:String
     },
     data() {
         return {

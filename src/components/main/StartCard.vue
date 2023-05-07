@@ -198,6 +198,7 @@ export default {
                         message: 'Crawler终止成功',
                         type: 'success'
                     })
+                    this.getQR_disabled = false
                     this.isGetQR = false
                      var img_box = document.getElementById('img-box')
                      this.changeInterface(true)
