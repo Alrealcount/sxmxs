@@ -22,15 +22,15 @@
                         <div style="display: flex;justify-content: space-around;">
                             <div class="time-show-item">
                                 <span>深度搜索</span>
-                                <div><span>0</span></div>
+                                <div><span>{{deepTime}}</span></div>
                             </div>
                             <div class="time-show-item">
                                 <span>实时监听</span>
-                                <div><span>0</span></div>
+                                <div><span>{{listenTime}}</span></div>
                             </div>
                             <div class="time-show-item">
                                 <span>最大耗时</span>
-                                <div><span>0</span></div>
+                                <div><span>{{maxTime}}</span></div>
                             </div>
                         </div>
                     </el-card>
@@ -41,7 +41,7 @@
                     <StatuLight :lightStatus.sync="crawStatus"></StatuLight>
                 </div>
                 <div style="padding: 20px;" class="fade-in">
-                    <MessageTable :messList.sync="messageList"></MessageTable>
+                    <MessageTable :messList.sync="messageList" :time="time"></MessageTable>
                 </div>
                 <div class="main-center-box">
                     <div class="thread-table fade-in">
@@ -83,7 +83,13 @@ export default {
         return {
             crawStatus:'',
             stu_statu_num:0,
-            messageList:[]
+            messageList:[],
+            time:[],
+            deepTime:0,
+            deepTimer:'',
+            listenTime:0,
+            listenTimer:'',
+            maxTime:0
         }
     },
     
@@ -92,6 +98,9 @@ export default {
         this.getUserInfo()
         this.getCrawStatus()
         this.getUserId()
+        this.deepTime = this.formateSeconds(0)
+        this.listenTime = this.formateSeconds(0)
+        this.maxTime = this.formateSeconds(0)
     },
     methods: {
         getStuData(){
@@ -162,6 +171,29 @@ export default {
                 if (data.code === 2055) {
                     this.crawStatus = data.data
                     console.log(this.crawStatus)
+                    if (this.crawStatus === 'LISTEN') {
+                        let i = 1
+                        this.listenTimer = setInterval(() => {
+                            if (i > this.maxTime) {
+                                this.maxTime = this.formateSeconds(i)
+                            }
+                            this.listenTime = this.formateSeconds(i++)
+                        }, 1000)
+                    } else {
+                        clearInterval(this.listenTimer)
+                    }
+                    if(this.crawStatus==='DEEP_SEARCH'){
+                        let i = 1
+                        this.deepTimer = setInterval(()=>{
+                            if (i > this.maxTime) {
+                                this.maxTime = this.formateSeconds(i)
+                            }
+                            this.deepTime = this.formateSeconds(i++)
+                        },1000)
+                    }else{
+                        clearInterval(this.deepTimer)
+                    }
+                    
                 } else {
                     console.log('get CrawStatus error')
                 }
@@ -190,7 +222,6 @@ export default {
                 };
                 //获得消息事件
                 socket.onmessage = (msg) => {
-                    // console.log(msg)
                     let data = JSON.parse(msg.data)
                     switch (data.code) {
                         case 3000:
@@ -209,8 +240,10 @@ export default {
                             console.log(data)
                             break;
                         case 3020:
-                            console.log(data.message)
-                            this.messageList.push(data.message)
+                            // console.log(msg)
+                            this.messageList.push(data.data)
+                            this.time.push((data.timestamp.split('.')[0]).split('T')[1])
+                            console.log(this.messageList)
                             break;
                         default:
                             break;
@@ -224,12 +257,40 @@ export default {
                     this.openSocket()
                 };
                 //发生了错误事件
-                socket.onerror = function () {
+                socket.onerror = function (e) {
+                    console.log(e)
                     console.log("websocket发生了错误");
                     this.openSocket()
                 }
             }
-        }
+        },
+        formateSeconds(endTime) {
+            let secondTime = parseInt(endTime); //将传入的秒的值转化为Number
+            let min = 0; // 初始化分
+            let h = 0; // 初始化小时
+            let result = "";
+            if (secondTime > 60) {
+                //如果秒数大于60，将秒数转换成整数
+                min = parseInt(secondTime / 60); //获取分钟，除以60取整数，得到整数分钟
+                secondTime = parseInt(secondTime % 60); //获取秒数，秒数取佘，得到整数秒数
+                if (min > 60) {
+                    //如果分钟大于60，将分钟转换成小时
+                    h = parseInt(min / 60); //获取小时，获取分钟除以60，得到整数小时
+                    min = parseInt(min % 60); //获取小时后取佘的分，获取分钟除以60取佘的分
+                }
+            }
+            if (h.toString().padStart(2, "0") == "00") {
+                result = `${min.toString().padStart(2, "0")}:${secondTime
+                    .toString()
+                    .padStart(2, "0")}`;
+            } else {
+                result = `${h.toString().padStart(2, "0")}:${min
+                    .toString()
+                    .padStart(2, "0")}:${secondTime.toString().padStart(2, "0")}`;
+            }
+
+            return result;
+        },
     },
 }
 </script>

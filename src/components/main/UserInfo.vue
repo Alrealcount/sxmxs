@@ -39,6 +39,9 @@
 <script>
     export default {
         name: 'UserInfo',
+        props: {
+            // user:[]
+        },
         data() {
             return {
                 user: [],
@@ -50,7 +53,6 @@
                 this.stu = sessionStorage.getItem('stu')
                 this.updateInfo()
             },300)
-            
         },
         methods: {
             updateInfo() {

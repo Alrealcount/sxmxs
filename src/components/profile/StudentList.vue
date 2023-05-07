@@ -37,9 +37,7 @@
                             <!-- <el-descriptions-item label="选中状态">{{item.selected?'是':'否'}}</el-descriptions-item> -->
                             <el-descriptions-item label="QQ号">{{item.qqNumber}}</el-descriptions-item>
                         </el-descriptions>
-                        <div class="re-set-notes">
-                            <input type="text" placeholder="点此更改昵称" id="nick" v-on:click.stop="stopMaopao">
-                        </div>
+                        
                         <div class="student-option">
                             <div class="option-span">
                                 <span style="transform: translate(5px,-5px);color: rgb(27, 27, 97);">删除</span>
@@ -51,7 +49,12 @@
                                     <el-button slot="reference" v-on:click.stop="stopMaopao"></el-button>
                                 </el-popconfirm>
                             </template>
-                            <el-button style="margin-left: 0;" @click="reSetInfo(item)" v-on:click.stop="stopMaopao"></el-button>
+                            <div>
+                                <div class="re-set-notes">
+                                    <input type="text" placeholder="点此更改昵称" v-on:click.stop="stopMaopao">
+                                </div>
+                                <el-button style="margin-left: 0;" @click="reSetInfo(item,$event)" v-on:click.stop="stopMaopao"></el-button>
+                            </div>
                         </div>
                     </div>
                     <div :class="[item.selected?'back-i-right':'back-i-wrong']">
@@ -210,10 +213,11 @@
                     }
                 })
             },
-            reSetInfo(item) {
+            reSetInfo(item,e) {
+                let parent = e.target.parentNode.children[0]
+                let obj = parent.children[0]
                 console.log(item)
-                let nick = document.getElementById('nick')
-                if(nick.value != ''){
+                if(obj.value != ''){
                     this.$axios({
                         url: 'http://api.pi1grim.top/ea/api/v3/student',
                         method: 'put',
@@ -222,7 +226,7 @@
                                 {
                                     id: item.id,
                                     qqNumber: item.qqNumber,
-                                    notes: nick.value,
+                                    notes: obj.value,
                                     selected: item.selected
                                 }
                             ]
@@ -238,7 +242,7 @@
                                 type: 'success'
                             });
                             this.getStuList()
-                            nick.value = ''
+                            obj.value = ''
                         }else{
                             this.$message({
                                 message: `${data.message}`,
@@ -357,7 +361,8 @@
 
     .re-set-notes {
         position: absolute;
-        right: 5%;
+        right: 80px;
+        top: 50px;
     }
 
     .re-set-notes input {

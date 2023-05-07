@@ -36,11 +36,12 @@
                 </div>
             </div>
             <div class="start-btn-box" id="option-btn">
-                <el-button @click="deepSearch()">深度搜索</el-button>
-                <el-button @click="Listen()">实时监听</el-button>
+                <el-button @click="deepSearch">深度搜索</el-button>
+                <el-button @click="Listen">实时监听</el-button>
             </div>
             <div class="start-btn-box" id="close-listen-btn">
-                <el-button @click="Listen()">关闭实时监听</el-button>
+                <el-button @click="closeListen">关闭实时监听</el-button>
+                <el-button @click="deepSearch">切换为深度搜索</el-button>
             </div>
         </el-card>
     </div>
@@ -95,6 +96,7 @@ export default {
             }
         },
         deepSearch() {
+            this.isListen(false)
             this.isBtnClose(true)
             this.$axios({
                 url: 'http://api.pi1grim.top/ea/api/v3/crawler/deep',
@@ -113,6 +115,7 @@ export default {
         },
         Listen(){
             this.isBtnClose(true)
+            this.isListen(true)
             this.$axios({
                 url: 'http://api.pi1grim.top/ea/api/v3/crawler/listen',
                 method: 'get',
@@ -216,6 +219,18 @@ export default {
                 option_btn.style.display = 'flex'
             }
             
+        },
+        isListen(type){
+            var close_listen_btn = document.getElementById('close-listen-btn')
+            if(type){
+                close_listen_btn.style.display = 'flex'
+            }else{
+                close_listen_btn.style.display = 'none'
+            }
+        },
+        closeListen(){
+            this.isListen(false)
+            this.isBtnClose(false)
         }
     },
 }
@@ -229,10 +244,12 @@ export default {
 .start-btn-box{
     width: 100%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+}
+#start-btn-box{
+    flex-direction: column;
 }
 .start-btn-box-show{
     display: flex;
@@ -270,13 +287,16 @@ export default {
     /* color: black !important; */
 }
 .lev-unused{
-    background-color: #3ffca178 !important;
+    background-color: #2dff9956 !important;
+    color: #1a824fd6 !important;
 }
 .deep-search{
-    background-color: #9f47f681 !important;
+    background-color: #9f47f655 !important;
+    color: #5f209ec9 !important;
 }
 .listen{
-    background-color: #ebaf5a76 !important;
+    background-color: #ebaf5a5c !important;
+    color: #955803d1 !important;
 }
 @-webkit-keyframes slide-in-fwd-center {
   0% {
