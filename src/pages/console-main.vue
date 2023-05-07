@@ -22,15 +22,15 @@
                         <div style="display: flex;justify-content: space-around;">
                             <div class="time-show-item">
                                 <span>深度搜索</span>
-                                <div><span>{{deepTime}}</span></div>
+                                <div><span class="span-item">{{deepTime}}</span></div>
                             </div>
                             <div class="time-show-item">
                                 <span>实时监听</span>
-                                <div><span>{{listenTime}}</span></div>
+                                <div><span class="span-item">{{listenTime}}</span></div>
                             </div>
                             <div class="time-show-item">
                                 <span>最大耗时</span>
-                                <div><span>{{maxTime}}</span></div>
+                                <div><span class="span-item">{{maxTime}}</span></div>
                             </div>
                         </div>
                     </el-card>
@@ -89,7 +89,8 @@ export default {
             deepTimer:'',
             listenTime:0,
             listenTimer:'',
-            maxTime:0
+            maxTime:0,
+            maxTimeNum:0
         }
     },
     
@@ -100,7 +101,7 @@ export default {
         this.getUserId()
         this.deepTime = this.formateSeconds(0)
         this.listenTime = this.formateSeconds(0)
-        this.maxTime = this.formateSeconds(0)
+        this.maxTime = this.formateSeconds(this.maxTimeNum)
     },
     methods: {
         getStuData(){
@@ -174,8 +175,10 @@ export default {
                     if (this.crawStatus === 'LISTEN') {
                         let i = 1
                         this.listenTimer = setInterval(() => {
-                            if (i > this.maxTime) {
-                                this.maxTime = this.formateSeconds(i)
+                            // console.log(i,this.maxTimeNum)
+                            if (i > this.maxTimeNum) {
+                                this.maxTimeNum = i
+                                this.maxTime = this.formateSeconds(this.maxTimeNum)
                             }
                             this.listenTime = this.formateSeconds(i++)
                         }, 1000)
@@ -185,8 +188,10 @@ export default {
                     if(this.crawStatus==='DEEP_SEARCH'){
                         let i = 1
                         this.deepTimer = setInterval(()=>{
-                            if (i > this.maxTime) {
-                                this.maxTime = this.formateSeconds(i)
+                            // console.log(i,this.maxTimeNum)
+                            if (i > this.maxTimeNum) {
+                                this.maxTimeNum = i
+                                this.maxTime = this.formateSeconds(this.maxTimeNum)
                             }
                             this.deepTime = this.formateSeconds(i++)
                         },1000)
@@ -344,7 +349,11 @@ export default {
     flex-direction: column;
     align-items: center;
 }
-
+.span-item{
+    font-size: 14px;
+    font-weight: 700;
+    color: rgb(166, 166, 166);
+}
 .fade-in {
 	-webkit-animation: fade-in-top 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
     animation: fade-in-top 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
