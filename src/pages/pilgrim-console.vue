@@ -6,7 +6,7 @@
                 <!-- 索引 -->
                 <el-col :span="12">
                     <el-menu :default-active="this.$route.path" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-                    :collapse="isCollapse" router="true">
+                    :collapse="isCollapse" router>
                         <el-menu-item @click="showTo">
                             <!-- el-icon-s-unfold -->
                             <i :class="[isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold']"></i>

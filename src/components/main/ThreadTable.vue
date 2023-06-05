@@ -123,7 +123,13 @@ export default {
         echartsInit() {
             this.myChart.setOption({
                 tooltip: {
-                    trigger: 'axis'
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    },
                 },
                 legend: {
                     data: ['活动线程', '守护进程']
