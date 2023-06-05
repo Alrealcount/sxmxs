@@ -24,17 +24,29 @@
                     </div>
                 </el-card>
             </div>
-            <div class="line-chart">
-                <el-card class="box-card" shadow="never"
-                    style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
-                    <div slot="header" class="clearfix">
-                        <span>图表</span>
-                    </div>
-                    <div class="clearfix-two">
-                        <OverDeep :averageData.sync="averageData" :noteData.sync="noteData"></OverDeep>
-                    </div>
-                </el-card>
-                
+            <div class="chart-box">
+                <div class="line-chart">
+                    <el-card class="box-card" shadow="never"
+                        style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
+                        <div slot="header" class="clearfix">
+                            <span>图表1</span>
+                        </div>
+                        <div class="clearfix-two">
+                            <OverDeep :averageData.sync="averageData" :noteData.sync="noteData"></OverDeep>
+                        </div>
+                    </el-card>
+                </div>
+                <div class="line-chart right">
+                    <el-card class="box-card" shadow="never"
+                        style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
+                        <div slot="header" class="clearfix">
+                            <span>图表2</span>
+                        </div>
+                        <div class="clearfix-two">
+                            <tableCircle :averageData.sync="averageData" :noteData.sync="noteData"></tableCircle>
+                        </div>
+                    </el-card>
+                </div>
             </div>
         </div>
     </div>
@@ -43,6 +55,7 @@
 import BackGround from "../../components/BackGround.vue"
 import LoadBox from "../../components/main/LoadBox.vue"
 import OverDeep from "../../components/anaylsis/overDeep.vue"
+import tableCircle from "../../components/anaylsis/tableCircle.vue"
 import tableCom from "../../components/anaylsis/tableCom.vue"
 
 export default {
@@ -50,7 +63,8 @@ export default {
         BackGround,
         LoadBox,
         OverDeep,
-        tableCom
+        tableCom,
+        tableCircle
     },
     data() {
         return {
@@ -199,5 +213,15 @@ export default {
     padding-right: 10px;
     height: 500px;
     padding-bottom: 20px;
+}
+.chart-box{
+    width: 100%;
+    height: 500px;
+    position: relative;
+    display: flex;
+}
+.right{
+    padding-right: 0;
+    padding-left: 10px;
 }
 </style>
