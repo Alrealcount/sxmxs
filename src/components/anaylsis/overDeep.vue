@@ -42,6 +42,7 @@
         },
         methods: {
             echartsInit() {
+                // const series = 
                 console.log(this.noteData, this.averageData)
                 this.myChart.setOption({
                     tooltip: {

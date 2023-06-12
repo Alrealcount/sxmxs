@@ -2,7 +2,7 @@
     <div>
         <BackGround></BackGround>
         <loadBox></loadBox>
-        <div style="padding: 0 20px;padding-top: 20px;">
+        <div style="padding: 20px 20px;">
             <div class="anaylsis-overflow-header">
                 <span>深度搜索</span>
                 <div style="font-size: 12px;font-weight: 400;font-style: italic;"><span>f00867df</span></div>
@@ -24,6 +24,30 @@
                     </div>
                 </el-card>
             </div>
+            <div class="chart-box">
+                <div class="line-chart">
+                    <el-card class="box-card" shadow="never"
+                        style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
+                        <div slot="header" class="clearfix">
+                            <span>图表1</span>
+                        </div>
+                        <div class="clearfix-two">
+                            <OverDeep :averageData.sync="averageData" :noteData.sync="noteData"></OverDeep>
+                        </div>
+                    </el-card>
+                </div>
+                <div class="line-chart right">
+                    <el-card class="box-card" shadow="never"
+                        style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
+                        <div slot="header" class="clearfix">
+                            <span>图表2</span>
+                        </div>
+                        <div class="clearfix-two">
+                            <tableCircle :averageData.sync="averageData" :noteData.sync="noteData"></tableCircle>
+                        </div>
+                    </el-card>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -31,6 +55,7 @@
 import BackGround from "../../components/BackGround.vue"
 import LoadBox from "../../components/main/LoadBox.vue"
 import tableCom from "../../components/anaylsis/tableCom.vue"
+import {mapState} from 'vuex'
 export default {
     components: {
         BackGround,
@@ -39,7 +64,6 @@ export default {
     },
     data() {
         return {
-            deepData:[],
             types: [{
                 value: '良好'
             }, {
@@ -52,20 +76,36 @@ export default {
                 value: '全部'
             }],
             type: [],
+            bodyInfos:[]
         }
     },
+    computed: {
+        ...mapState(['deepData'])
+    },
     mounted() {
-        this.$bus.$on('getDeepData',(data)=>{
-            this.deepData = data
-            console.log('deepdata',this.deepData)
-            // console.log(data,this.deepData)
-        })
+        // this.$bus.$on('getDeepData',(data)=>{
+        //     this.deepData = data
+        //     console.log('deepdata',this.deepData)
+        //     // console.log(data,this.deepData)
+        // })
+        this.getDeepScore()
     },
     activated() {
         console.log(this.deepData);
     },
     methods: {
-        
+        getDeepScore(){
+            // console.log(this.$store.getters.overMap)
+            this.bodyInfos = []
+            this.$store.getters.overMap.forEach(item => {
+                const bodyinfo = item.map(itemp=>{
+                    return itemp.score
+                })
+                // console.log(bodyinfo)
+                this.bodyInfos.push(bodyinfo)
+            });
+            console.log(this.bodyInfos)
+        }
     },
 }
 </script>
@@ -101,5 +141,27 @@ export default {
 .clearfix-body{
     height: 534px;
     position: relative;
+}
+.clearfix-two{
+    width: 100%;
+    height: 374px;
+    position: relative;
+}
+.line-chart{
+    width: 50%;
+    margin: 20px 0;
+    padding-right: 10px;
+    height: 500px;
+    padding-bottom: 20px;
+}
+.chart-box{
+    width: 100%;
+    height: 500px;
+    position: relative;
+    display: flex;
+}
+.right{
+    padding-right: 0;
+    padding-left: 10px;
 }
 </style>

@@ -90,7 +90,9 @@ export default {
             listenTime:0,
             listenTimer:'',
             maxTime:0,
-            maxTimeNum:0
+            maxTimeNum:0,
+            deepData: [],
+            listenData: [],
         }
     },
     
@@ -99,9 +101,14 @@ export default {
         this.getUserInfo()
         this.getCrawStatus()
         this.getUserId()
+        this.getTableData()
         this.deepTime = this.formateSeconds(0)
         this.listenTime = this.formateSeconds(0)
         this.maxTime = this.formateSeconds(this.maxTimeNum)
+    },
+    deactivated() {
+        // console.log('tingyixia')
+        this.getTableData()
     },
     methods: {
         getStuData(){
@@ -295,6 +302,33 @@ export default {
             }
 
             return result;
+        },
+        getTableData() {
+            console.log('get tableData')
+            this.$axios({
+                url: 'http://api.pi1grim.top/ea/api/v3/result',
+                method: 'GET',
+                headers: {
+                    token: sessionStorage.getItem('token')
+                }
+            }).then(({ data }) => {
+                this.$store.commit('SetTable', data.data)
+                // this.tableData = data.data
+                // console.log(this.tableData)
+                let deepData = []
+                let listenData = []
+                data.data.forEach(item => {
+                    if (!item.dataType) {
+                        deepData = [...deepData, item]
+                    } else {
+                        listenData = [...listenData, item]
+                    }
+                });
+                // console.log(this.deepData,this.listenData)
+                this.$store.commit('SetDeep', deepData)
+                this.$store.commit('SetListen', listenData)
+                // this.dataControl()
+            })
         },
     },
 }

@@ -14,6 +14,7 @@ export default {
   },
   mounted() {
     this.initTo()
+    console.log('App',this)
   },
   methods: {
     initTo(){

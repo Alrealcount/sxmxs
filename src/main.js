@@ -9,6 +9,7 @@ import ElementUI from 'element-ui';                      // 引入element-ui
 import 'element-ui/lib/theme-chalk/index.css';
 import echarts from 'echarts'
 //需要挂载到Vue原型上
+import store from './store'
 
 Vue.prototype.$echarts = echarts
 
@@ -21,6 +22,7 @@ Vue.use(VueRouter)
 
 new Vue({
   render: h => h(App),
+  store,
   router:router,
   beforeCreate(){
     Vue.prototype.$bus = this

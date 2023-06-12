@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="clearfix-body">
-                        <tableCom :tableData.sync="tableData" :type.sync="type"></tableCom>
+                        <tableCom :tableData.sync="$store.state.tableData" :type.sync="type"></tableCom>
                     </div>
                 </el-card>
             </div>
@@ -80,9 +80,6 @@ export default {
                 value: '全部'
             }],
             type: [],
-            tableData: [],
-            deepData:[],
-            listenData:[],
             dataTotle:0,
             overMap: new Map(),
             averageData: [],//获取全部平均值
@@ -91,10 +88,14 @@ export default {
         }
     },
     mounted() {
-        this.getTableData()
+        // this.dataControl()
+        this.getAverange()
+        this.getNotes()
     }, 
     activated() {
-        this.getTableData()
+        // this.dataControl()
+        this.getAverange()
+        this.getNotes()
     },
     watch: {
         
@@ -103,54 +104,10 @@ export default {
         tableInit(){
 
         },
-        getTableData() {
-            console.log('get tableData')
-            this.$axios({
-                url: 'http://api.pi1grim.top/ea/api/v3/result',
-                method: 'GET',
-                headers: {
-                    token: sessionStorage.getItem('token')
-                }
-            }).then(({ data }) => {
-                this.tableData = data.data
-                // console.log(this.tableData)
-                this.deepData = []
-                this.ListenData = []
-                this.tableData.forEach(item => {
-                    if(!item.dataType){
-                        this.deepData = [...this.deepData,item]
-                    }else{
-                        this.listenData = [...this.listenData,item]
-                    }
-                });
-                // console.log(this.deepData,this.listenData)
-                this.$bus.$emit('getDeepData',this.deepData)
-                this.$bus.$emit('getListenData',this.ListenData)
-                this.dataControl()
-            })
-        },
-        dataControl() {
-            this.overMap.clear()
-            // console.log(this.tableData)
-            this.tableData.forEach(item => {
-                let list = []
-                if (this.overMap.has(item.notes)) {
-                    list = this.overMap.get(item.notes)
-                    list.push(item)
-                    this.overMap.set(item.notes, list)
-                } else {
-                    list.push(item)
-                    this.overMap.set(item.notes, list)
-                }
-            });
-            // console.log(this.overMap);
-            this.getAverange()
-            this.getNotes()
-        },
         getAverange() {
-            // console.log(this.overMap)
+            console.log(this.$store.getters.overMap)
             this.averageData = []
-            this.overMap.forEach(ele => {
+            this.$store.getters.overMap.forEach(ele => {
                 // console.log(ele)
                 let ave = 0
                 for (let i = 0; i < ele.length; i++) {
@@ -162,7 +119,7 @@ export default {
             });
         },
         getNotes() {
-            this.noteData = Array.from(this.overMap.keys())
+            this.noteData = Array.from(this.$store.getters.overMap.keys())
             // console.log(this.noteData)
         },
         

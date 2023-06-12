@@ -2,7 +2,7 @@
     <div>
         <BackGround></BackGround>
         <loadBox></loadBox>
-        <div style="padding: 0 20px;padding-top: 20px;">
+        <div style="padding: 20px 20px;">
             <div class="anaylsis-overflow-header">
                 <span>实时监听</span>
                 <div style="font-size: 12px;font-weight: 400;font-style: italic;"><span>f00867df</span></div>
@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="clearfix-body">
-                        <tableCom :tableData.sync="ListenData" :type.sync="type"></tableCom>
+                        <tableCom :tableData.sync="listenData" :type.sync="type"></tableCom>
                     </div>
                 </el-card>
             </div>
@@ -31,6 +31,7 @@
 import BackGround from "../../components/BackGround.vue"
 import LoadBox from "../../components/main/LoadBox.vue"
 import tableCom from "../../components/anaylsis/tableCom.vue"
+import {mapState} from 'vuex'
 export default {
     components: {
         BackGround,
@@ -39,7 +40,6 @@ export default {
     },
     data() {
         return {
-            ListenData:[],
             types: [{
                 value: '良好'
             }, {
@@ -54,10 +54,13 @@ export default {
             type: [],
         }
     },
+    computed: {
+        ...mapState(['listenData']),
+    },
     mounted() {
-        this.$bus.$on('getListenData', (data) => {
-            this.ListenData = data
-        })
+        // this.$bus.$on('getListenData', (data) => {
+        //     this.ListenData = data
+        // })
     },
     activated() {
         
