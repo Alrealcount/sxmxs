@@ -12,7 +12,7 @@
             </div>
             <div style="width: 50%;padding: 20px;z-index: 100;" class="fade-in">
                 <div style="border: 1px solid rgb(204, 204, 204);background-color: rgba(255, 255, 255, 0.655);box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);">
-                    <div style="">
+                    <div>
                         <div class="profile-header">
                             <span>用户信息修改</span>
                         </div>

@@ -6,17 +6,19 @@
     </div>
 </template>
 <script>
+import theme from "../../assets/wonderland.json"
 import * as echarts from "echarts"
 export default {
     name:'tableCircle',
-    props: ['averageData', 'noteData'],
+    props: ['averageData', 'noteData', 'type'],
     data() {
         return {
             circle_data:[]
         }
     },
     mounted() {
-        this.myChart = echarts.init(document.getElementById('deep-circle'))
+        echarts.registerTheme("slef-theme", theme)
+        this.myChart = echarts.init(document.getElementById('deep-circle'), "slef-theme")
         this.getCircleData()
         window.addEventListener("resize", () => {
             // console.log(this)
@@ -54,9 +56,9 @@ export default {
                 series: [
                     {
                         name: '备注名',
-                        type: 'pie',
+                        type: this.type,
                         // 数组的第一项是内半径，第二项是外半径；可以设置不同的内外半径显示成圆环图
-                        radius: '70%',
+                        radius: ['40%','70%'],
                         // 饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标；设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度
                         center: ['50%', '50%'],
                         data: Array.from(this.circle_data),

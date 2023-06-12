@@ -10,10 +10,11 @@
     </div>
 </template>
 <script>
+    import theme from "../../assets/wonderland.json"
     import * as echarts from "echarts"
     export default {
         name: 'OverDeep',
-        props: ['averageData', 'noteData'],
+        props: ['averageData', 'noteData', 'isArray'],
         data() {
             return {
                 
@@ -21,7 +22,9 @@
         },
         mounted() {
             // this.dataControl()
-            this.myChart = echarts.init(document.getElementById('deep-table'))
+            echarts.registerTheme("slef-theme", theme)
+            console.log('1111',this.averageData)
+            this.myChart = echarts.init(document.getElementById('deep-table'),"slef-theme")
             setTimeout(() => {
                 this.echartsInit()
             }, 0)
@@ -42,13 +45,46 @@
         },
         methods: {
             echartsInit() {
+                const series = []
+                let xAxis = {}
+                if(this.isArray){
+                    for(let item in this.averageData){
+                        series.push({
+                            name: `${this.noteData[item]}`,
+                            symbol: "none",
+                            data: this.averageData[item],
+                            type: 'line',
+                            showBackground: true
+                        })
+                    }
+                    xAxis = {
+                        type: 'category',
+                        show: true,
+                        boundaryGap: false, // 不留白，从原点开始
+                    }
+                }else{
+                    series.push({
+                        name: '',
+                        symbol: "none",
+                        data: this.averageData,
+                        type: 'line',
+                        showBackground: true
+                    })
+                    xAxis = {
+                        type: 'category',
+                        show: true,
+                        boundaryGap: false, // 不留白，从原点开始
+                        data : this.noteData
+                    }
+                }
+                console.log(series)
                 // const series = 
                 console.log(this.noteData, this.averageData)
                 this.myChart.setOption({
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: {
-                            type: 'cross',
+                            type: 'shadow',
                             label: {
                                 backgroundColor: '#6a7985'
                             }
@@ -62,8 +98,11 @@
                             saveAsImage: { show: true }
                         },
                     },
+                    legend: {
+                        data: this.noteData
+                    },
                     grid: {
-                        left: '0%',
+                        left: '3%',
                         right: '3%',
                         bottom: '0%',
                         containLabel: true
@@ -73,25 +112,12 @@
                             saveAsImage: {}
                         }
                     },
-                    xAxis: {
-                        type: 'category',
-                        show: true,
-                        boundaryGap: false, // 不留白，从原点开始
-                        data: this.noteData
-                    },
+                    xAxis: xAxis,
                     yAxis: {
+                        name:'心情指数',
                         type: 'value'
                     },
-                    series: [{
-                        name: '',
-                        symbol: "none",
-                        data: this.averageData,
-                        type: 'line',
-                        showBackground: true,
-                        backgroundStyle: {
-                            color: 'rgba(220, 220, 220, 0.8)'
-                        }
-                    }]
+                    series: series
                 }, {
                     notMerge: false,
                     lazyUpdate: true,

@@ -7,6 +7,30 @@
                 <span>数据概览</span>
                 <div style="font-size: 12px;font-weight: 400;font-style: italic;"><span>f00867df</span></div>
             </div>
+            <div class="chart-box">
+                <div class="line-chart">
+                    <el-card class="box-card" shadow="never"
+                        style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
+                        <div slot="header" class="clearfix">
+                            <span>图表1</span>
+                        </div>
+                        <div class="clearfix-two">
+                            <OverDeep :averageData.sync="averageData" :noteData.sync="noteData" :isArray="false"></OverDeep>
+                        </div>
+                    </el-card>
+                </div>
+                <div class="line-chart right">
+                    <el-card class="box-card" shadow="never"
+                        style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
+                        <div slot="header" class="clearfix">
+                            <span>图表2</span>
+                        </div>
+                        <div class="clearfix-two">
+                            <tableCircle :averageData.sync="averageData" :noteData.sync="noteData"></tableCircle>
+                        </div>
+                    </el-card>
+                </div>
+            </div>
             <div class="overTable">
                 <el-card class="box-card" shadow="never"
                     style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
@@ -23,30 +47,6 @@
                         <tableCom :tableData.sync="$store.state.tableData" :type.sync="type"></tableCom>
                     </div>
                 </el-card>
-            </div>
-            <div class="chart-box">
-                <div class="line-chart">
-                    <el-card class="box-card" shadow="never"
-                        style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
-                        <div slot="header" class="clearfix">
-                            <span>图表1</span>
-                        </div>
-                        <div class="clearfix-two">
-                            <OverDeep :averageData.sync="averageData" :noteData.sync="noteData"></OverDeep>
-                        </div>
-                    </el-card>
-                </div>
-                <div class="line-chart right">
-                    <el-card class="box-card" shadow="never"
-                        style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
-                        <div slot="header" class="clearfix">
-                            <span>图表2</span>
-                        </div>
-                        <div class="clearfix-two">
-                            <tableCircle :averageData.sync="averageData" :noteData.sync="noteData"></tableCircle>
-                        </div>
-                    </el-card>
-                </div>
             </div>
         </div>
     </div>
@@ -166,7 +166,7 @@ export default {
 }
 .line-chart{
     width: 50%;
-    margin: 20px 0;
+    /* margin: 20px 0; */
     padding-right: 10px;
     height: 500px;
     padding-bottom: 20px;

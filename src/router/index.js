@@ -3,6 +3,8 @@ import Login from "../pages/pilgrim-login.vue"
 import Sign from "../pages/pilgrim-sign.vue"
 import Home from "../pages/pilgrim-home.vue"
 import Console from "../pages/pilgrim-console.vue"
+import Intro from "../pages/pilgrim-intro.vue"
+import About from "../pages/pilgrim-about.vue"
 import Profile from "../pages/console-profile.vue"
 import Main from "../pages/console-main.vue"
 // import Anaylsis from "../pages/console-anaylsis.vue"
@@ -60,6 +62,16 @@ const router =  new VueRouter({
                             component: Listen,
                         }
                     ]
+                },
+                {
+                    name: '项目介绍',
+                    path: 'pilgrim-intro',
+                    component: Intro,
+                },
+                {
+                    name: '关于我们',
+                    path: 'pilgrim-about',
+                    component: About,
                 }
             ]
         }

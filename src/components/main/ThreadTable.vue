@@ -27,7 +27,7 @@
 </template>
 <script>
 import * as echarts from "echarts"
-import "../../assets/js/roma.project.json"
+import theme from "../../assets/wonderland.json"
 
 export default {
     name:'ThreadTable',
@@ -51,7 +51,8 @@ export default {
         }
     },
     mounted() {
-        this.myChart = echarts.init(document.getElementById('thread-table'), 'roma.project')
+        echarts.registerTheme("slef-theme", theme)
+        this.myChart = echarts.init(document.getElementById('thread-table'), "slef-theme")
         this.mintime = Date.parse(new Date())
         // console.log(this.mintime)
         this.guardTimes.push([this.mintime, 0])

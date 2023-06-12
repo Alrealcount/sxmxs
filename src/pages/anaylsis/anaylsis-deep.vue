@@ -7,6 +7,30 @@
                 <span>深度搜索</span>
                 <div style="font-size: 12px;font-weight: 400;font-style: italic;"><span>f00867df</span></div>
             </div>
+            <div class="chart-box">
+                <div class="line-chart">
+                    <el-card class="box-card" shadow="never"
+                        style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
+                        <div slot="header" class="clearfix">
+                            <span>图表1</span>
+                        </div>
+                        <div class="clearfix-two">
+                            <OverDeep :averageData.sync="bodyInfos" :noteData.sync="noteData" :isArray="true"></OverDeep>
+                        </div>
+                    </el-card>
+                </div>
+                <div class="line-chart">
+                    <el-card class="box-card" shadow="never"
+                        style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
+                        <div slot="header" class="clearfix">
+                            <span>图表2</span>
+                        </div>
+                        <div class="clearfix-two">
+            
+                        </div>
+                    </el-card>
+                </div>
+            </div>
             <div class="overTable">
                 <el-card class="box-card" shadow="never"
                     style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
@@ -24,43 +48,24 @@
                     </div>
                 </el-card>
             </div>
-            <div class="chart-box">
-                <div class="line-chart">
-                    <el-card class="box-card" shadow="never"
-                        style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
-                        <div slot="header" class="clearfix">
-                            <span>图表1</span>
-                        </div>
-                        <div class="clearfix-two">
-                            <OverDeep :averageData.sync="averageData" :noteData.sync="noteData"></OverDeep>
-                        </div>
-                    </el-card>
-                </div>
-                <div class="line-chart right">
-                    <el-card class="box-card" shadow="never"
-                        style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
-                        <div slot="header" class="clearfix">
-                            <span>图表2</span>
-                        </div>
-                        <div class="clearfix-two">
-                            <tableCircle :averageData.sync="averageData" :noteData.sync="noteData"></tableCircle>
-                        </div>
-                    </el-card>
-                </div>
-            </div>
+            
         </div>
     </div>
 </template>
 <script>
 import BackGround from "../../components/BackGround.vue"
 import LoadBox from "../../components/main/LoadBox.vue"
+import OverDeep from "../../components/anaylsis/overDeep.vue"
+// import tableCircle from "../../components/anaylsis/tableCircle.vue"
 import tableCom from "../../components/anaylsis/tableCom.vue"
 import {mapState} from 'vuex'
 export default {
     components: {
         BackGround,
         LoadBox,
-        tableCom
+        OverDeep,
+        tableCom,
+        // tableCircle
     },
     data() {
         return {
@@ -76,7 +81,8 @@ export default {
                 value: '全部'
             }],
             type: [],
-            bodyInfos:[]
+            bodyInfos:[],
+            noteData:[]
         }
     },
     computed: {
@@ -105,7 +111,12 @@ export default {
                 this.bodyInfos.push(bodyinfo)
             });
             console.log(this.bodyInfos)
-        }
+            this.getNotes()
+        },
+        getNotes() {
+            this.noteData = Array.from(this.$store.getters.overMap.keys())
+            // console.log(this.noteData)
+        },
     },
 }
 </script>
@@ -148,9 +159,9 @@ export default {
     position: relative;
 }
 .line-chart{
-    width: 50%;
+    width: 100%;
     margin: 20px 0;
-    padding-right: 10px;
+    /* padding-right: 10px; */
     height: 500px;
     padding-bottom: 20px;
 }
@@ -158,7 +169,7 @@ export default {
     width: 100%;
     height: 500px;
     position: relative;
-    display: flex;
+    /* display: flex; */
 }
 .right{
     padding-right: 0;
