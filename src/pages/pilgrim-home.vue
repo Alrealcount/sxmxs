@@ -93,7 +93,7 @@ export default {
 }
 .active{
     /* background-color: rgb(9, 248, 248); */
-    color: rgb(63, 0, 80);
+    color: rgb(0, 0, 0);
     font-size: 17px;
 }
 

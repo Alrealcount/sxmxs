@@ -36,7 +36,7 @@ const state = {
 const getters = {
     overMap(state){
         const map = new Map()
-        state.tableData.forEach(item => {
+        state.deepData.forEach(item => {
             let list = []
             if (map.has(item.notes)) {
                 list = map.get(item.notes)
@@ -46,6 +46,21 @@ const getters = {
                 list.push(item)
                 map.set(item.notes, list)
             } 
+        });
+        return map
+    },
+    LisOverMap(state){
+        const map = new Map()
+        state.listenData.forEach(item => {
+            let list = []
+            if (map.has(item.notes)) {
+                list = map.get(item.notes)
+                list.push(item)
+                map.set(item.notes, list)
+            } else {
+                list.push(item)
+                map.set(item.notes, list)
+            }
         });
         return map
     }

@@ -9,8 +9,8 @@
 import theme from "../../assets/wonderland.json"
 import * as echarts from "echarts"
 export default {
-    name:'tableCircle',
-    props: ['averageData', 'noteData', 'type'],
+    name:'fuCircle',
+    props: ['averageData', 'noteData'],
     data() {
         return {
             circle_data:[]
@@ -50,18 +50,23 @@ export default {
                     orient: 'vertical',
                     x: 'right',      //可设定图例在左、右、居中
                     y: 'top',     //可设定图例在上、下、居中
-                    padding: [0, 20, 0, 0],   //可设定图例[距上方距离，距右方距离，距下方距离，距左方距离]
+                    padding: [0, 10, 0, 0],   //可设定图例[距上方距离，距右方距离，距下方距离，距左方距离]
                     data: this.noteData
                 },
                 series: [
                     {
                         name: '备注名',
-                        type: this.type,
+                        type: 'pie',
                         // 数组的第一项是内半径，第二项是外半径；可以设置不同的内外半径显示成圆环图
                         radius: ['40%','70%'],
                         // 饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标；设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度
                         center: ['50%', '50%'],
                         data: Array.from(this.circle_data),
+                        labelLine: {
+                            normal: {
+                                show: true   // show设置线是否显示，默认为true，可选值：true ¦ false
+                            }
+                        },
                         // [
                         //     { name: '健康',value: 5 },
                         //     {  name: '良好',value: 8 },
@@ -110,7 +115,7 @@ export default {
 </script>
 <style scoped>
     #deep-circle {
-        width: 100%;
-        height: 100%;
+        width: 502px;
+        height: 374px;
     }
 </style>

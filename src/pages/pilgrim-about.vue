@@ -57,11 +57,11 @@
                     <div class="about-bottom-item-main">
                         <div class="main-item">
                             <i class="el-icon-user-solid"></i>
-                            <p>ming</p>
+                            <p>王嘉明</p>
                         </div>
                         <div class="main-item">
                             <i class="el-icon-phone"></i>
-                            <p>1235646487</p>
+                            <p>13453236786</p>
                         </div>
                         <div class="main-item">
                             <i class="el-icon-position"></i>

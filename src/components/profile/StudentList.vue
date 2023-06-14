@@ -40,8 +40,14 @@
                         
                         <div class="student-option">
                             <div class="option-span">
-                                <span style="transform: translate(5px,-5px);color: rgb(27, 27, 97);">删除</span>
-                                <span style="transform: translate(5px,5px);color: rgb(31, 181, 11);">修改</span>
+                                <span style="transform: translate(5px,-5px);color: rgba(4, 127, 158, 0.658);">修改</span>
+                                <span style="transform: translate(5px,5px);color: rgba(186, 131, 4, 0.508);">删除</span>
+                            </div>
+                            <div>
+                                <div class="re-set-notes">
+                                    <input type="text" placeholder="点此更改昵称" v-on:click.stop="stopMaopao">
+                                </div>
+                                <el-button style="margin-left: 0;" @click="reSetInfo(item,$event)" v-on:click.stop="stopMaopao"></el-button>
                             </div>
                             <template>
                                 <el-popconfirm confirm-button-text='是' cancel-button-text='不用了' icon="el-icon-info"
@@ -49,12 +55,7 @@
                                     <el-button slot="reference" v-on:click.stop="stopMaopao"></el-button>
                                 </el-popconfirm>
                             </template>
-                            <div>
-                                <div class="re-set-notes">
-                                    <input type="text" placeholder="点此更改昵称" v-on:click.stop="stopMaopao">
-                                </div>
-                                <el-button style="margin-left: 0;" @click="reSetInfo(item,$event)" v-on:click.stop="stopMaopao"></el-button>
-                            </div>
+                            
                         </div>
                     </div>
                     <div :class="[item.selected?'back-i-right':'back-i-wrong']">
@@ -322,7 +323,7 @@
         /* width: 480px; */
         height: 80px;
         margin-bottom: 5px;
-        border-radius: 40px;
+        border-radius: 8px;
         position: relative;
         overflow: hidden;
         -webkit-animation: fade-in-top 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
@@ -352,7 +353,9 @@
         align-items: center;
 
     }
-
+    .option-span span{
+        text-align: center;
+    }
     .back-i-right-enter,
     .back-i-right-enter-active {
         -webkit-animation: fade-in-top 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
@@ -362,7 +365,7 @@
     .re-set-notes {
         position: absolute;
         right: 80px;
-        top: 50px;
+        top: 10px;
     }
 
     .re-set-notes input {
@@ -414,9 +417,9 @@
     }
 
     .student-option {
-        top: -40px;
-        right: -10px;
-        height: 160px;
+        top: 0;
+        right: 0;
+        height: 80px;
         position: absolute;
         display: flex;
         flex-direction: column;
@@ -427,10 +430,12 @@
 
     .student-option .el-button {
         /* border-radius: 13px !important; */
-        width: 80px !important;
-        height: 80px !important;
+        width: 60px !important;
+        height: 40px !important;
         z-index: 9;
-        opacity: 0.5;
+        opacity: 0;
+        /* transform: translateY(-50%); */
+        /* padding: 0; */
     }
 
     .student-option .option-span {

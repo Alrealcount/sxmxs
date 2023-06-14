@@ -15,11 +15,11 @@
                             <span>图表1</span>
                         </div>
                         <div class="clearfix-two">
-                            <OverDeep :averageData.sync="averageData" :noteData.sync="noteData" :isArray="false"></OverDeep>
+                            <fuCircle :averageData.sync="averageData" :noteData.sync="noteData"></fuCircle>
                         </div>
                     </el-card>
                 </div>
-                <div class="line-chart right">
+                <div class="line-chart center">
                     <el-card class="box-card" shadow="never"
                         style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
                         <div slot="header" class="clearfix">
@@ -27,6 +27,41 @@
                         </div>
                         <div class="clearfix-two">
                             <tableCircle :averageData.sync="averageData" :noteData.sync="noteData"></tableCircle>
+                        </div>
+                    </el-card>
+                </div>
+                <div class="line-chart right">
+                    <el-card class="box-card" shadow="never"
+                        style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
+                        <div slot="header" class="clearfix">
+                            <span>图表3</span>
+                        </div>
+                        <div class="clearfix-two">
+                            <RadioCom :noteData.sync="noteData"></RadioCom>
+                        </div>
+                    </el-card>
+                </div>
+            </div>
+            <div class="chart-box">
+                <div class="two-chart">
+                    <el-card class="box-card" shadow="never"
+                        style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
+                        <div slot="header" class="clearfix">
+                            <span>图表1</span>
+                        </div>
+                        <div class="clearfix-two">
+                            <OverDeep :averageData.sync="averageData" :noteData.sync="noteData" :isArray="false"></OverDeep>
+                        </div>
+                    </el-card>
+                </div>
+                <div class="two-chart right">
+                    <el-card class="box-card" shadow="never"
+                        style="box-shadow: 0 0px 2px 0 rgba(0,0,0,.25);background-color: rgba(255, 255, 255, 0.655);height: 100%;">
+                        <div slot="header" class="clearfix">
+                            <span>图表2</span>
+                        </div>
+                        <div class="clearfix-two">
+                            <columnCom :averageData.sync="averageData" :noteData.sync="noteData"></columnCom>
                         </div>
                     </el-card>
                 </div>
@@ -45,6 +80,7 @@
                     </div>
                     <div class="clearfix-body">
                         <tableCom :tableData.sync="$store.state.tableData" :type.sync="type"></tableCom>
+                        
                     </div>
                 </el-card>
             </div>
@@ -57,6 +93,9 @@ import LoadBox from "../../components/main/LoadBox.vue"
 import OverDeep from "../../components/anaylsis/overDeep.vue"
 import tableCircle from "../../components/anaylsis/tableCircle.vue"
 import tableCom from "../../components/anaylsis/tableCom.vue"
+import RadioCom from "../../components/anaylsis/RadioCom.vue"
+import fuCircle from "../../components/anaylsis/fuCircle.vue"
+import columnCom from "../../components/anaylsis/columnCom.vue"
 
 export default {
     components: {
@@ -64,7 +103,10 @@ export default {
         LoadBox,
         OverDeep,
         tableCom,
-        tableCircle
+        tableCircle,
+        RadioCom,
+        fuCircle,
+        columnCom
     },
     data() {
         return {
@@ -85,7 +127,14 @@ export default {
             averageData: [],//获取全部平均值
             noteData: [],//获取全部备注名
             // listenData:[]
+            pie:['65%'],
+            pie_inner:['40%','60%']
         }
+    },
+    computed: {
+        deepData(){
+            return this.$store.state.deepData
+        }  
     },
     mounted() {
         // this.dataControl()
@@ -93,12 +142,15 @@ export default {
         this.getNotes()
     }, 
     activated() {
-        // this.dataControl()
-        this.getAverange()
-        this.getNotes()
+
     },
     watch: {
-        
+        deepData(cur){
+            if(cur){
+                this.getAverange()
+                this.getNotes()
+            }
+        }
     },
     methods: {
         tableInit(){
@@ -149,8 +201,9 @@ export default {
     font-weight: 600;
 }
 .overTable{
-    height: 600px;
+    height: 620px;
     position: relative;
+    padding-bottom: 20px;
 }
 .table-option{
     padding-left: 30px;
@@ -163,10 +216,18 @@ export default {
     width: 100%;
     height: 374px;
     position: relative;
+    overflow-y: hidden;
+    overflow-x: scroll;
 }
 .line-chart{
-    width: 50%;
+    width: 33.33%;
     /* margin: 20px 0; */
+    padding-right: 10px;
+    height: 500px;
+    padding-bottom: 20px;
+}
+.two-chart{
+    width: 50%;
     padding-right: 10px;
     height: 500px;
     padding-bottom: 20px;
@@ -181,4 +242,8 @@ export default {
     padding-right: 0;
     padding-left: 10px;
 }
+.center{
+    margin-left: 10px;
+}
+
 </style>
